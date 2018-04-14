@@ -1,0 +1,24 @@
+//Client:Zahrani. Task: Get items from Customer or Selling Quotation
+            frappe.ui.form.on('Purchase Order', {
+                refresh: function (frm) {
+		console.log("11");
+                    frm.add_custom_button(__('Customer Quotation'),
+                        function () {
+                            erpnext.utils.map_current_doc({
+                                method: "zahrani.zahrani.quotation.make_purchase_order",
+                                source_doctype: "Quotation",
+                                target: frm,
+                                setters: {
+                                    customer: frm.doc.customer || undefined
+                                },
+                                get_query_filters: {
+                                    company: frm.doc.company,
+                                    docstatus: 1,
+                                    status: ["!=", "Lost"],
+                                }
+                            });
+                        }, __("Add items from"));
+
+                }
+            });
+//Client:Zahrani. Task: Get items from Customer or Selling Quotation
