@@ -1,0 +1,72 @@
+Sales Person Itemwise Commission
+==========================================
+select
+A.name AS `Sales Invoice:Link/Sales Invoice`,
+ A.sales_person AS `Sales Person:Link/Sales Person`, 
+B.item_name  As `Item:Link/Item:200`, 
+B.qty AS `Quantity:Float:80`,  
+B.net_rate AS `Net Rate`,
+D.commission AS `Commission Rate:Data:150`,
+((B.net_rate*qty*D.commission)/100) AS `Commission Amount:Float:150`
+from `tabSales Invoice` AS A
+ inner join `tabSales Invoice Item` AS B
+ ON A.name = B.parent and A.status='Paid' and A.company = %(company)s
+and A.posting_date >= %(from_date)s and A.posting_date <= %(to_date)s 
+INNER JOIN `tabSales Person` AS C 
+ON A.sales_person = C.sales_person_name
+INNER JOIN `tabSales Person Item Commission` as D
+ON C.name = D.parent
+and D.item = B.item_name
+order by A.sales_person asc,
+(B.net_rate*qty*D.commission)/100 desc,
+item_name asc;
+
+=======================================================
+
+Client Bonus for Early Payment
+
+	select
+A.name AS `Sales Invoice:Link/Sales Invoice`,
+A.customer_name AS `Customer:Link/Customer`, 
+A.due_date AS `Due Date`,
+D.posting_date AS `Payment Date`,
+A.base_rounded_total AS `Invoice Amount`,
+B.client_bonus_percentage AS `Bonus Percentage:Float:150`,
+((B.client_bonus_percentage * A.base_rounded_total)/100) AS `Bonus Amount:Float:150`
+from `tabSales Invoice` AS A
+	INNER JOIN `tabCustomer` AS B
+	ON A.company = %(company)s
+	and A.posting_date >= %(from_date)s and A.posting_date <= %(to_date)s 
+	and A.customer_name = B.name 
+	and A.status='Paid' 
+	and A.outstanding_amount = 0
+	and B.is_client_bonus_applicable = 1	
+INNER JOIN `tabPayment Entry Reference` AS C 
+		ON A.name = C.reference_name
+INNER JOIN `tabPayment Entry` as D
+		ON C.parent = D.name
+		and D.posting_date < A.due_date
+		order by A.due_date desc,
+((B.client_bonus_percentage * A.base_rounded_total)/100) desc;
+
+=============================================================
+
+Collection Commission for Sales Person
+
+
+select
+A.name AS `Sales Invoice:Link/Sales Invoice`,
+A.sales_person AS `Sales Person:Link/Sales Person`, 
+A.base_rounded_total AS `Invoice Amount`,
+C.collection_commission_percentage AS `Collection Commission Percentage:Data:150`,
+((C.collection_commission_percentage * B.allocated_amount)/100) AS `Commission Amount:Float:150`
+from `tabSales Invoice` AS A
+inner join `tabPayment Entry Reference` AS B
+ON A.company = %(company)s
+and A.posting_date >= %(from_date)s and A.posting_date <= %(to_date)s 
+and A.name = B.reference_name and A.status='Paid' 
+INNER JOIN `tabSales Person` AS C 
+ON A.sales_person = C.sales_person_name
+order by A.sales_person asc,
+((C.collection_commission_percentage * B.allocated_amount)/100) desc;
+
