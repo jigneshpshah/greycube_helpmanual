@@ -1,0 +1,458 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block page_content %}
+{% from "erpnext/templates/includes/macros.html" import product_image %}
+
+<div class="item-content phone-section" style="margin-top:20px;">
+	<div class="product-page-content" itemscope itemtype="http://schema.org/Product">
+		<div class="row">
+		   <!--<div class="col-sm-6"> -->
+			<div class=" col-sm-4 col-md-3 "> <!-- quickrepair: width change 6 to 3 -->
+				{% if slideshow %}
+					{% include "templates/includes/slideshow.html" %}
+				{% else %}
+					{{ product_image(website_image, "product-full-image") }}
+				{% endif %}
+			</div>
+			<!-- <div class="col-sm-6" style="padding-left:20px;"> -->
+			<div class="col-sm-8 col-md-6" > <!-- quickrepair: remove padding-->
+
+				 <!--<h2 itemprop="name" style="margin-top: 0px;">{{ item_name }}</h2> -->
+				 <h1 itemprop="name" style="margin-top: 0px;">{{ item_name }}</h1> <!-- quickrepair: change h2 to h1-->
+
+				<p class="text-muted">
+					{{ _("Item Code") }}: <span itemprop="productID">{{ variant and variant.name or name }}</span></p>
+                
+                
+                <!-- quickrepair: add form + List service start html-->  
+
+				<div class="tab1">
+<!-- 		quickrepair -->
+				{% if repair_item_specification -%}
+					<div itemprop_repair="repairs" itemscope itemtype="http://schema.org/Repair">
+						
+					
+				<div class=" repair-item-specification" style="margin-top: 0px">
+						<table class="table table-hover table-responsive table-striped" >
+							<thead>
+					            <tr>
+					              <th>{{ _("Repair List") }}</th>
+					              <th>Price</th>
+					              <th></th>
+					            </tr>
+					          </thead>
+					          <tbody> 
+						{% for d in repair_item_specification -%}
+							<tr>
+<td itemprop_repair="productID{{ d.idx }}" >{{ d.repair_item }}</td>						 
+								<td><h4 class="item_repair-price{{ d.idx }}" itemprop_repair="price"></h4></td>
+								<td><a class="signup" onClick="nextPrev('{{ d.repair_item }}')"><i class="fa fa-arrow-circle-right"></i></a></td>
+							</tr>
+						{%- endfor %}
+						    </tbody>
+						</table>
+				</div>
+				</div>
+				{%- endif %}
+		<!-- 		quickrepair -->
+               </div>  
+
+               <div class="tab2" style="display:none;">
+               	    <div id="form-alert" class="" style=" margin-bottom: 14px; display:none;"></div>
+                    <a class="btn btn-default float-left" onClick="prevback()"> << Back</a>
+			        <div class="form-group">
+			          <label for="name">Your Name (required)</label>
+			          <input type="text" class="form-control" id="name" placeholder="Enter Name">
+			        </div>
+			        <div class="form-group">
+			          <label for="email">Your e-mail (required)</label>
+			          <input type="text" class="form-control" id="email" placeholder="Enter Email">
+			        </div>
+			        <div class="form-group">
+			          <label for="phone">Your Phone number</label>
+			          <input type="text" class="form-control" id="phone" placeholder="Enter phone">
+			        </div>
+			        <div class="form-group">
+			          <label for="repair">Which repair?</label>
+			          <input type="text" class="form-control" id="repair" placeholder="Which Repair">
+			        </div>
+			        <div class="form-group">
+			          <label for="store">Which Store would you like to visit?</label>
+			          <select id="store" class="form-control">
+			            <option value="vs">Vlaanderenstraat 117, 9000 Gent</option>
+			            <option value="bn">Bennesteeg 27, 9000 Gent</option>
+			          </select>
+			        </div>
+			        <div class="form-group">
+			          <label for="message">Your message</label>
+			          <textarea class="form-control" id="message" rows="4" placeholder="Your message"></textarea>
+			        </div>
+			        <div class="form-group">
+			          <label for="date">Date</label>
+			          <input type="text" class="form-control" id="date" placeholder="dd.mm.yyyy">
+                    </div>
+			        <button type="submit" class="btn btn-primary btn-orange">Submit</button>
+			        <a class="btn btn-default" onClick="prevback()">Back</a> 
+			    </div>
+              
+                <!-- quickrepair: add form + List service end html--> 
+
+				<div class="item-attribute-selectors">
+					{% if has_variants %}
+					{% for d in attributes %}
+					{% if attribute_values[d.attribute] -%}
+					<div class="item-view-attribute {% if (attribute_values[d.attribute] | len)==1 -%} hidden {%- endif %}"
+							style="margin-bottom: 10px;">
+						<h6 class="text-muted">{{ _(d.attribute) }}</h6>
+						<select class="form-control"
+							style="max-width: 140px"
+							data-attribute="{{ d.attribute }}">
+						{% for value in attribute_values[d.attribute] %}
+						<option value="{{ value }}"
+						{% if selected_attributes and selected_attributes[d.attribute]==value -%}
+							selected
+						{%- elif disabled_attributes and value in disabled_attributes.get(d.attribute, []) -%}
+							disabled
+						{%- endif %}>
+							{{ _(value) }}
+						</option>
+						{% endfor %}
+						</select>
+					</div>
+					{%- endif %}
+					{% endfor %}
+					{% endif %}
+				</div>
+				<br>
+				<div style="min-height: 0px; margin: 10px 0;">
+					<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+						<h4 class="item-price" itemprop="price"></h4>
+						<div class="item-stock" itemprop="availability"></div>
+					</div>
+					<div class="item-cart hide">
+						<div id="item-add-to-cart">
+							<button class="btn btn-primary btn-sm">
+								{{ _("Add to Cart") }}</button>
+						</div>
+						<div id="item-update-cart" style="display: none;">
+							<a href="/cart" class='btn btn-sm btn-default'>
+								<i class='octicon octicon-check'></i>
+								{{ _("View in Cart") }}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- quickrepair: add side-section start html-->
+            <div class=" col-sm-12 col-md-3">
+			      <div class="bg-grey">
+			        <div class=" block-block-3">
+			          <p><strong>Why register a device?</strong></p>
+			          <ul>
+			            <li>We ensure that the parts are in stock</li>
+			            <li>We prepare everything for an even faster handling</li>
+			          </ul>
+			          <p><strong>Quick Repair is the logical choice:</strong></p>
+			          <ul class="secondstyle">
+			            <li>1 year warranty</li>
+			            <li>Respect for your privacy</li>
+			            <li>No cure? No pay!</li>
+			          </ul>
+			        </div>
+			      </div>
+			 </div>
+			<!-- quickrepair: add side-section end html-->
+			
+		</div>
+		<!-- quickrepair: add section2 start html-->
+		<section class="custom  phone-section">
+		  <div class="row">
+			<div class=" col-sm-12 col-md-12 ">
+			  <h2 class="block-title">Do you prefer not to come by? Just send your device!</h2>
+			  <ol class="number-sec">
+				<li>You print the registration form and complete it.</li>
+				<li>You send the device together with the form with Bpost or another courier service. </li>
+				<li>When the device arrives in our store, we carry out the repair immediately. </li>
+				<li>After the repair we will send you the recovery voucher or invoice via e-mail. You can make the payment via Pay-Pal or bank transfer. As soon as we have received the payment, the device will be sent.</li>
+			  </ol>
+			</div>
+		  </div>
+		</section>
+		<!-- quickrepair: add section2 end html-->
+	
+		<!-- <div class="row item-website-description" style="margin-top:30px; margin-bottom:20px">
+			<div class="col-md-12">
+		<div class="h6 text-uppercase">{{ _("Description") }}</div>
+		<div itemprop="description" class="item-desc">
+		{{ web_long_description or description or _("No description given") }}
+		</div>
+		</div>
+		</div> -->
+
+		{% if website_specifications -%}
+		<div class="row item-website-specification" style="margin-top: 40px">
+			<div class="col-md-12">
+				<div class="h6 text-uppercase">{{ _("Specifications") }}</div>
+
+				<table class="table borderless" style="width: 100%">
+				{% for d in website_specifications -%}
+					<tr>
+						<td class="text-muted" style="width: 30%;">{{ d.label }}</td>
+						<td>{{ d.description }}</td>
+					</tr>
+				{%- endfor %}
+				</table>
+			</div>
+		</div>
+		{%- endif %}
+	</div>
+</div>
+<!-- quickrepair: add css start-->
+<style>
+@import url("/assets/frappe/js/lib/datepicker/datepicker.min.css");
+
+.page-container{max-width: 100%;}
+.page-container .page_content, .page-container .page-content.without-sidebar{padding-top:0;     padding-bottom: 00px;}
+.page-container .row {
+     margin-right: 0px; 
+     margin-left: 0px; 
+}
+.page-container .page-head,#page-iphone-x  .web-page-content {
+    margin-bottom: 0;
+}
+
+section.custom{
+   position:relative;
+   width:100%;
+   padding:24px 0;
+}
+section.title-section{
+  border-bottom:1px solid #ddd;
+  padding-bottom:0px;
+}
+.title-section h1{
+   text-align:left;
+   font-size:32px;
+   line-height:40px;
+   margin-top: 0px;
+}
+.phone-section table thead th{
+   font-size:18px;
+}
+a.signup{
+   color:#ef4c23;
+   text-decoration:underline;
+   font-size: 24px;
+}
+.phone-section .block-title{
+    font-size: 1.88235rem;
+    margin-top:0;
+    font-weight: 600;
+}
+.phone-section ol.number-sec{
+   font-size: 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 1.17647rem;
+    list-style-position: outside;
+    font-family: inherit;
+    padding-left: 0;
+    list-style: none;
+ 
+}
+.phone-section ol.number-sec li{
+counter-increment: counter-incr;
+    padding-left: 28px;
+    position: relative;
+    padding-bottom: 5px;
+}
+.phone-section ol.number-sec li:before {
+    content: counter(counter-incr);
+    font-weight: 700;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background-color: #ef3700;
+    background-size: 24px;
+    box-shadow: 1px 1px 0 #ca2f01;
+    border-radius: 50%;
+    text-shadow: 1px 1px 0 #ca2f01;
+}
+
+.bg-grey {
+}
+.block-block-3{
+  padding: 15px;
+    margin-top: 80px;
+   border:1px solid #ddd;
+border-radius: 10px;
+}
+ .block-block-3 ul {
+    margin-left: 0;
+    list-style: none;
+    padding-left:0;
+}
+.block-block-3 ul li {
+    padding-left: 24px;
+    padding-bottom: 10px;
+position:relative;
+}
+.block-block-3  ul li:before {
+    content: "\f046";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 20px;
+    color:#ef4c23;
+    text-rendering: auto;
+    position: absolute;
+   left:0;
+   top:2px;
+}
+.block-block-3  ul.secondstyle li:before {
+    content: "\f0a9";
+}
+
+.tab2{
+   margin-top:20px;
+}
+.btn-orange{
+   background-color: #EF3700;
+   border-color:#EF3700;
+}
+.btn-orange:hover, .btn-orange:active, .btn-orange:focus, .btn-orange:visited{
+   background-color: #bf2c00;
+   border-color:#bf2c00;
+}
+.float-left{
+   float: right;
+   margin-top: -10px;
+
+}
+input.error {
+    border: 1px solid red;
+}
+
+label.error {
+    color: red;
+}
+#form-alert > div.alert{
+	margin:0;
+}
+</style>
+
+<!-- quickrepair: add css end-->
+
+<script>
+ function nextPrev(text){
+ 	  $("#repair").val(text);
+     $(".tab1").hide();
+     $(".tab2").show();
+  }
+  function prevback(){
+     $(".tab1").show();
+      $("#repair").val('');
+     $(".tab2").hide();
+  }
+
+	{% include "templates/includes/repair_page.js" %}
+	{% include "templates/includes/product_page.js" %}
+
+	{% if variant_info %}
+	window.variant_info = {{ variant_info }};
+	{% else %}
+	window.variant_info = null;
+	{% endif %}
+</script>
+<script type="text/javascript" src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		$.getScript('/assets/frappe/js/lib/datepicker/datepicker.min.js', function() {
+		 var options={
+			 isRTL: false,
+			format: 'yyyy-mm-dd',
+			todayHighlight: true,
+			autoclose: true,
+			language: 'en'
+		 };
+		 
+		 $.fn.datepicker.language['en'] = {
+			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			today: "Today"
+		};
+		$('#date').datepicker(options);
+	  });
+  // button for sign-up event
+  $('.btn-orange').click(function() {
+    $("#form-alert").toggle(false);
+
+    var args = {
+        name: $('[id="name"]').val(),        
+        email: $('[id="email"]').val(),
+        phone: $('[id="phone"]').val(),
+        repair: $('[id="repair"]').val(),
+        store: $('[id="store"]').val(),
+        message: $('[id="message"]').val(),
+        date: $('[id="date"]').val(),
+      }
+    // all mandatory
+    if(!(args.name && args.email && args.phone
+        && args.repair && args.store && args.message && args.date)) {
+       msgprint('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert">&times;</button>All fields are necessary. Please try again.</div>');
+       return;
+    }
+
+    // email is valid
+    if(!valid_email(args.email)) {
+        msgprint('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert">&times;</button>Please enter a valid email id</div>');
+        return;
+    }
+
+    // compose the message
+    var message = "Name: " + args.name + "\n"
+        + "Email: " + args.email + "\n"
+        + "Phone: " + args.phone + "\n"
+        + "Repair: " + args.repair + "\n"
+        + "Store: " + args.store + "\n"
+        + "Message: " + args.message + "\n"
+        + "Appointment Date: " + args.date
+
+    frappe.send_message({
+      subject: args.name,
+      sender: $('[id="email"]').val(),
+      status: 'Open',
+      message: message,
+      callback: function(r) {
+        // print return message
+        msgprint('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert">&times;</button>Thanks for your repair order, please visit our store !</div>');
+		    // r.message clear all inputs
+        $(':input').val('');
+      }
+    });
+  });
+
+});
+
+var msgprint = function(txt) {
+    $("#form-alert").html(txt).toggle(true);
+	 $('html, body').animate({
+        scrollTop: $(".page-container").offset().top
+    }, 2000);
+}
+</script>	
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% from "erpnext/templates/includes/macros.html" import product_image_qr %}
+
+<!-- quickrepair : add this section product start-->
+<div class=" col-xs-6 col-sm-3 col-md-2"> <a class="device-link" href="{{ route|abs_url }}">
+          <article class="dev-img">
+            <figure> {{ product_image_qr(thumbnail or website_image) }}
+              <h3 class="title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ item_name }}</font></font></h3>
+            </figure>
+          </article>
+          </a> </div>
+<!-- quickrepair : add this section product end -->
+
+<!--<a class="product-link" href="{{ route|abs_url }}">
+	<div class="col-sm-4 col-xs-4 product-image-wrapper">
+		<div class="product-image-img">
+			{{ product_image_qr(thumbnail or website_image) }}
+			<div class="product-text" itemprop="name">{{ item_name }}</div>
+			{% if in_stock or not is_stock_item %}
+				<div style='color: green'> <i class='fa fa-check'></i> {{ _("In stock") }}</div>
+			{% else %}
+				<div style='color: red'> <i class='fa fa-close'></i> {{ _("Not in stock") }}</div>
+			{% endif %}
+		</div>
+	</div>
+</a>-->
