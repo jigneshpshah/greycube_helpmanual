@@ -1,0 +1,55 @@
+select 
+PI.branch,
+SUM(
+	CASE WHEN PI.is_return = 0 
+	THEN PIT.base_net_amount
+	ELSE 0
+	END) AS PurchaseAmount,
+SUM(
+	CASE WHEN PI.is_return = 0 
+	THEN PIT.stock_qty
+	ELSE 0
+	END) AS PurchaseQty,
+SUM(
+	CASE WHEN PI.is_return = 1
+	THEN PIT.base_net_amount
+	ELSE 0
+	END) AS PurchaseReturnAmount,
+SUM(
+	CASE WHEN PI.is_return = 1 
+	THEN PIT.stock_qty
+	ELSE 0
+	END) AS PurchaseReturnQty,
+0 AS DamageAmount,
+0 AS DamageQty
+from `tabStock Ledger Entry` as SL
+INNER JOIN `tabPurchase Invoice` as PI
+ON SL.voucher_no = PI.name
+INNER JOIN `tabPurchase Invoice Item` as PIT
+ON PIT.parent = PI.name
+GROUP BY PI.branch
+
+UNION ALL
+select 
+SE.branch,
+0 AS PurchaseAmount,
+0 AS PurchaseQty,
+0 AS PurchaseReturnAmount,
+0 AS PurchaseReturnQty,
+SUM(
+	CASE WHEN SE.isdamage = 1 
+	THEN SED.basic_amount
+	ELSE 0
+	END) AS DamageAmount,
+SUM(
+	CASE WHEN SE.isdamage = 1 
+	THEN SED.qty
+	ELSE 0
+	END) AS DamageQty
+from `tabStock Ledger Entry` as SL
+INNER JOIN `tabStock Entry` as SE
+ON SL.voucher_no = SE.name
+INNER JOIN `tabStock Entry Detail` as SED
+ON SED.parent = SE.name
+GROUP BY SE.branch
+

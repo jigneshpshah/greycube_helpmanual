@@ -1,0 +1,76 @@
+select SI.sales_partner, 
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as WholeSaleQty,
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as WholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as HalfWholeSaleQty , 
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as HalfWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as WholeSaleReturnQty,
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as WholeSaleReturnAmmount,	
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as HalfWholeSaleReturnQty , 
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as HalfWholeSaleReturnAmmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as NetWholeSaleQty,
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as NetWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as NetHalfWholeSaleQty , 
+	SUM(
+		CASE WHEN SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as NetHalfWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SI.total_commission
+		ELSE 0
+	END) as WholeSaleCommission,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SI.total_commission
+		ELSE 0
+	END) as HalfWholeSaleCommission
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	group by sales_partner

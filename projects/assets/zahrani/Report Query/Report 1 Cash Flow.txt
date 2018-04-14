@@ -1,0 +1,28 @@
+select 
+SI.branch AS Branch,
+SUM(
+CASE WHEN SIP.mode_of_payment = "Riyadh Bank"
+THEN SIP.base_amount
+ELSE 0
+END) AS "Riyadh Bank",
+SUM(
+CASE  WHEN SIP.mode_of_payment = "Riyadh Cash"
+THEN SIP.base_amount
+ELSE 0
+END)AS "Riyadh Cash",
+SUM(
+CASE  WHEN SIP.mode_of_payment = "Rajhi Bank"
+THEN SIP.base_amount
+ELSE 0
+END) AS "Rajhi Bank",
+SUM(
+CASE  WHEN SIP.mode_of_payment = "NCB Bank"
+THEN SIP.base_amount
+ELSE 0
+END) AS "NCB Bank"
+from 
+`tabSales Invoice` AS SI 
+INNER JOIN `tabSales Invoice Payment` AS SIP
+ON SIP.parent = SI.name
+where SI.status ="Paid"
+group by SI.branch

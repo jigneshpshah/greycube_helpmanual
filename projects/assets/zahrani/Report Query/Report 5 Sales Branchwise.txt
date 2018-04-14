@@ -1,0 +1,420 @@
+FINAL QUERY
+=======================================================================
+select SI.branch, 
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as WholeSaleQty,
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as WholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as HalfWholeSaleQty , 
+	SUM(
+		CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as HalfWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as WholeSaleReturnQty,
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as WholeSaleReturnAmmount,	
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as HalfWholeSaleReturnQty , 
+	SUM(
+		CASE WHEN SI.is_return = 1 AND SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as HalfWholeSaleReturnAmmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as NetWholeSaleQty,
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as NetWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Half-Wholesale"
+		THEN SIT.stock_qty
+		ELSE 0 
+	END) as NetHalfWholeSaleQty , 
+	SUM(
+		CASE WHEN SI.invoice_type = "Half-Wholesale"
+		THEN SIT.base_net_amount
+		ELSE 0
+	END) as NetHalfWholeSaleAmount,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SI.total_commission
+		ELSE 0
+	END) as WholeSaleCommission,	
+	SUM(
+		CASE WHEN SI.invoice_type = "Wholesale"
+		THEN SI.total_commission
+		ELSE 0
+	END) as HalfWholeSaleCommission
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	group by branch
+
+=================================================
+
+=======================================================
+
+ALL WASTE
+=========================================================
+	select branch,
+	WholeSaleQty,
+	WholeSaleAmount,
+	HalfWholeSaleQty,
+	HalfWholeSaleAmount,
+	WholeSaleReturnQty,
+	WholeSaleReturnAmmount
+	HalfWholeSaleReturnQty,
+	HalfWholeSaleReturnAmmount
+	NetWholeSaleQty,	
+	NetWholeSaleAmount,
+	NetHalfWholeSaleQty,	
+	NetHalfWholeSaleAmount,
+	WholeSaleCommission,
+	HalfWholeSaleCommission
+	
+	from (
+
+	select SI.branch, 
+	sum(SIT.stock_qty) as WholeSaleQty,
+	sum(SIT.base_net_amount) as WholeSaleAmount,
+	0 as HalfWholeSaleQty , 0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.is_return = 0 AND SI.invoice_type = "Wholesale"
+	group by branch
+
+	union all
+
+	select SI.branch, 
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	sum(SIT.stock_qty) As HalfWholeSaleQty,
+	sum(SIT.base_net_amount) as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+	group by branch
+
+	union all
+
+	select SI.branch, 
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount,
+	0 as HalfWholeSaleQty , 
+	0 as HalfWholeSaleAmount,
+	sum(SIT.stock_qty) as WholeSaleReturnQty,
+	sum(SIT.base_net_amount) as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.is_return =1 AND SI.invoice_type = "Wholesale"
+	group by branch	
+
+	union all
+
+	select SI.branch,
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	0 As HalfWholeSaleQty, 
+	0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	sum(SIT.stock_qty) as HalfWholeSaleReturnQty,
+	sum(SIT.base_net_amount) as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.is_return =1 AND SI.invoice_type = "Half-Wholesale"	
+	group by branch
+	
+	union all
+
+	
+	select SI.branch,
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	0 As HalfWholeSaleQty, 
+	0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	sum(SIT.stock_qty) as NetWholeSaleQty,	
+	sum(SIT.base_net_amount) as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.invoice_type = "Wholesale"	
+	group by branch
+	
+	union all
+
+	select SI.branch,
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	0 As HalfWholeSaleQty, 
+	0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	sum(SIT.stock_qty) as NetHalfWholeSaleQty,	
+	sum(SIT.base_net_amount) as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.invoice_type = "Half-Wholesale"	
+	group by branch
+	
+union all
+
+	select SI.branch,
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	0 As HalfWholeSaleQty, 
+	0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	0 as NetHalfWholeSaleQty,	
+	0 as NetHalfWholeSaleAmount,
+	sum(total_commission) as WholeSaleCommission,
+	0 as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.invoice_type = "Wholesale"	
+	group by branch
+
+union all
+
+	select SI.branch,
+	0 as WholeSaleQty, 
+	0 as WholeSaleAmount ,
+	0 As HalfWholeSaleQty, 
+	0 as HalfWholeSaleAmount,
+	0 as WholeSaleReturnQty,
+	0 as WholeSaleReturnAmmount,
+	0 as HalfWholeSaleReturnQty,
+	0 as HalfWholeSaleReturnAmmount,
+	0 as NetWholeSaleQty,	
+	0 as NetWholeSaleAmount,
+	sum(SIT.stock_qty) as NetHalfWholeSaleQty,	
+	sum(SIT.base_net_amount) as NetHalfWholeSaleAmount,
+	0 as WholeSaleCommission,
+	sum(total_commission) as HalfWholeSaleCommission
+	
+	from
+	`tabSales Invoice Item` as SIT 
+	INNER JOIN `tabSales Invoice` as SI
+	ON SIT.parent = SI.name
+	where SI.invoice_type = "Half-Wholesale"	
+	group by branch
+	
+	
+	) t
+	group by branch
+	
+	
+	==================================
+SELECT SI.branch,
+SUM(CASE WHEN SI.is_return = 0 AND SI.invoice_type = "Half-Wholesale"
+THEN sum(SIT.stock_qty) 
+ELSE 0
+END) hwq,
+IF(SI.is_return =1 ,IF( SI.invoice_type = "Half-Wholesale"), sum(SIT.stock_qty), 0),0)hwrq,
+IF((SI.is_return =0 AND SI.invoice_type = "Wholesale"), sum(SIT.stock_qty), 0)wq,
+IF((SI.is_return =1 AND SI.invoice_type = "Wholesale"), sum(SIT.stock_qty), 0)wrq
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+group by SI.branch
+
+
+;
+======================================
+
+
+select SI.branch, 
+
+sum(SIT.stock_qty),
+sum(SIT.base_net_amount),
+SI.invoice_type 
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+and SI.is_return =1
+
+========================
+select SI.branch, 
+IF(SI.is_return =0,sum(SIT.stock_qty),0) as WholeSaleQty,
+IF(SI.is_return =0,sum(SIT.base_net_amount),0) as WholeSaleAmount,
+0 as HalfWholeSaleQty , 0 as HalfWholeSaleAmount,
+IF(SI.is_return =1,sum(SIT.stock_qty),0) as WholeSaleReturnQty,
+IF(SI.is_return =1,sum(SIT.base_net_amount),0) as WholeSaleReturnAmmount,
+0 as HalfWholeSaleReturnQty,
+0 as HalfWholeSaleReturnAmmount
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+where SI.invoice_type = "Wholesale"
+group by SI.branch
+=============================================
+union all
+
+select SI.branch, 
+0 as WholeSaleQty, 
+0 as WholeSaleAmount ,
+sum(SIT.stock_qty) As HalfWholeSaleQty,
+sum(SIT.base_net_amount) as HalfWholeSaleAmount,
+0 as WholeSaleReturnQty,
+0 as WholeSaleReturnAmmount,
+0 as HalfWholeSaleReturnQty,
+0 as HalfWholeSaleReturnAmmount
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+where SI.invoice_type = "Half-Wholesale"
+
+union all
+select SI.branch, 
+0 as WholeSaleQty, 
+0 as WholeSaleAmount,
+0 as HalfWholeSaleQty , 
+0 as HalfWholeSaleAmount,
+sum(SIT.stock_qty) as WholeSaleReturnQty,
+sum(SIT.base_net_amount) as WholeSaleReturnAmmount,
+0 as HalfWholeSaleReturnQty,
+0 as HalfWholeSaleReturnAmmount
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+where SI.is_return =1 AND SI.invoice_type = "Wholesale"
+
+union all
+select SI.branch,
+0 as WholeSaleQty, 
+0 as WholeSaleAmount ,
+0 As HalfWholeSaleQty, 
+0 as HalfWholeSaleAmount,
+0 as WholeSaleReturnQty,
+0 as WholeSaleReturnAmmount,
+sum(SIT.stock_qty) as HalfWholeSaleReturnQty,
+sum(SIT.base_net_amount) as HalfWholeSaleReturnAmmount
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+where SI.is_return =1 AND SI.invoice_type = "Half-Wholesale"
+
+union all
+
+
+select SI.branch,
+0 as WholeSaleQty, 
+0 as WholeSaleAmount ,
+0 As HalfWholeSaleQty, 
+0 as HalfWholeSaleAmount,
+0 as WholeSaleReturnQty,
+0 as WholeSaleReturnAmmount,
+sum(SIT.stock_qty) as HalfWholeSaleReturnQty,
+sum(SIT.base_net_amount) as HalfWholeSaleReturnAmmount
+
+from
+`tabSales Invoice Item` as SIT 
+INNER JOIN `tabSales Invoice` as SI
+ON SIT.parent = SI.name
+where SI.is_return =1 AND SI.invoice_type = "Half-Wholesale"
+
