@@ -1,0 +1,99 @@
+function listFilesInFolder() {
+  var folder = DriveApp.getFolderById('0B5oVwyADiukvTXIxOUlaVnpuNVU');
+  var contents = folder.getFiles();
+  var file;
+  var name;
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var date;
+  var size;
+
+  sheet.clear();
+  sheet.appendRow(["Name", "Date", "Size (MB)"]);
+
+  data = ['none','','']
+  sheet.appendRow(data);
+
+  while(contents.hasNext()) {
+    file = contents.next();
+    name = file.getName();
+    date = file.getDateCreated()
+    size = file.getSize()
+    if ((size) && (size > 0)) {
+      size = (size / 1024) / 1000
+    }
+    if (name.indexOf(".mp4", name.length - ".mp4".length) !== -1) {
+      data = [name, date, size]
+      sheet.appendRow(data);
+    }
+  }
+};
+
+function onTriggerCall()
+{
+  
+  
+  
+  // The code below will make the 3rd sheet active in the active spreadsheet
+ var ss = SpreadsheetApp.getActiveSpreadsheet();
+ SpreadsheetApp.setActiveSheet(ss.getSheets()[2]);
+  var now = new Date();
+  
+//  var timeZone = Session.getScriptTimeZone();
+//  ss.getRange('G10').setValue(Utilities.formatDate(now, timeZone,'yyyyMMdd HH:mm'));
+
+// SET USER DATE TO FORMAT  
+ ss.getRange('H4').setValue(Utilities.formatDate(ss.getRange('B2').getValue(), "GMT+5:30",'yyyyMMdd'));
+  
+  // GET NOW DATE AND CONVERT TO FORMAT
+  
+ ss.getRange('G4').setValue(Utilities.formatDate(now, "GMT+5:30",'yyyyMMdd'));
+ 
+  // GET NOW TIME AND CONVERT TO 24 HOURS FORMAT
+ ss.getRange('G5').setValue(Utilities.formatDate(now, "GMT+5:30",'HH:mm'));
+  
+  // GET USER TIME
+  ss.getRange('G6').setValue(ss.getRange('F2').getValue());
+  
+  
+  // CHECK DATE & TIME MATCH
+if ( ss.getRange('H4').getValue() == ss.getRange('G4').getValue() && ss.getRange('G7').getValue()=="MATCH")
+{
+  ss.getRange('K2').setValue("Date & time match ! .The Trigger is running");
+  var ProductName = ss.getRange('A2').getValue();
+  ss.getRange('K4').setValue(ProductName);
+  
+  var VideoName = ss.getRange('E2').getValue();
+  
+  ss.getRange('K5').setValue(VideoName);
+  
+   SpreadsheetApp.setActiveSheet(ss.getSheets()[0]);
+ 
+  var data = ss.getDataRange().getValues();
+ var rownum =0;
+  for(var i = 0; i<data.length;i++){
+    if(data[i][0] == ProductName){ //[1] because column A
+   //   Logger.log((i+1))
+      rownum = i+1;
+    }
+  }
+  
+  if (rownum != 0)
+  {
+    ss.getRange('I' + rownum).setValue(VideoName);
+  }
+  else
+  {
+    Logger.log(ProductName + "not found. Please check monitor sheet");
+    ss.getRange('J1').setValue("Product No Found");
+  }
+}
+ else
+  {
+    ss.getRange('K2').setValue("Date & time mis match ! .The Trigger is running");
+  }
+
+  
+ 
+};
+
+
