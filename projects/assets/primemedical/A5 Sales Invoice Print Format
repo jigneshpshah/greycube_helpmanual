@@ -1,0 +1,163 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<style>
+    .print-format table, .print-format tr, 
+    .print-format td, .print-format div, .print-format p {
+        font-family: Calibri;
+        vertical-align: middle;
+    }
+    @media screen {
+        .print-format {
+            width: 8.3in;
+            padding: 0.25in;
+            min-height: 5.8in<style>
+    .print-format table, .print-format tr, 
+    .print-format td, .print-format div, .print-format p {
+        font-family: Monospace;
+        line-height: 200%;
+        vertical-align: middle;
+    }
+    @media screen {
+        .print-format {
+            width: 8.3in;
+            padding: 0.25in;
+            min-height: 5.8in;
+        }
+    }
+</style>
+
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+<label>
+<p class="text-center"><b>{{ _("Sales Invoice") }}</b></p><br>
+</label>
+<div class="row">        
+     <div class="col-xs-6">            
+        <div class="row">
+            <div class="col-xs-5 text-right"><label>Customer Name</label></div>
+            <div class="col-xs-7 ">{{ doc.customer }} </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-5 text-right"><label>Address</label></div>
+            <div class="col-xs-7 ">{{ doc.address_display or ''}}</div>
+        </div>         
+    </div>
+
+    <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-5 text-right"><label>Invoice#</label></div>
+            <div class="col-xs-7 ">{{ doc.name or ''}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-5 text-right"> <label>Date</label> </div>
+            <div class="col-xs-7 ">
+                {{ doc.get_formatted("posting_date") or ''}}</div>
+        </div>    
+        {%- if doc.reg_no -%}
+        <div class="row">
+            <div class="col-xs-5 text-right"><label>Reg.No</label></div>
+            <div class="col-xs-7 ">{{ doc.reg_no or ''}}</div>
+        </div>
+         {%- endif -%}
+    </div>
+            
+</div>
+        
+
+<table class="table table-condensed table-hover table-bordered">
+        <tr>
+            <th>Sr</th>
+            <th>Description</th>
+            <th>Mkt.by</th>
+            <th>Batch</th>
+            <th>Expiry</th>
+            <th>UoM</th>
+            <th class="text-right">Qty</th>
+            <th class="text-right">Rate</th>
+            <th class="text-right">Amount</th>
+        </tr>
+        {%- for row in doc.items -%}
+        <tr>
+            <td style="width: 3%;">{{ row.idx }}</td>
+            <td style="width: 27%;"> {{ row.item_name or '' }}  </td>
+            <td style="width: 10%; text-align: center;">{{ row.brand }}</td>
+            <td style="width: 10%; text-align: center;">{{ row.batch_no }}</td>
+	    <td style="width: 8%; text-align: center;">
+		{% if row.expiry_date %}
+			{{frappe.utils.formatdate(row.expiry_date,"MM-YY")}}
+		{% else %}
+		{% endif %}</td>
+            <td style="width: 12%; text-align: right;">{{ row.stock_uom }}</td>
+            <td style="width: 10%; text-align: right;">{{ row.qty }}</td>
+            <td style="width: 10%; text-align: right;">
+                
+                {{ row.get_formatted("rate", doc) or ''}}
+            <td style="width: 10%; text-align: right;">{{
+                row.get_formatted("amount", doc) or ''}}</td>
+        </tr>
+        {%- endfor -%}
+    </tbody>
+</table>
+<br>
+   
+<div class="row">
+    <div class="col-xs-6 text-right"></div>
+    <div class="col-xs-4 text-right"><label>{{ _("Net Total") }}</label></div>
+    <div class="col-xs-2 ">
+      {{ doc.get_formatted("total") or '' }}
+    </div>
+</div>  
+{%- if doc.other_charges_calculation -%}
+{{ doc.get_formatted("other_charges_calculation") or '' }}
+    {%- endif -%}
+
+<div class="row">
+    <div class="col-xs-6 text-right"></div>
+    <div class="col-xs-4 text-right"><label>{{ _("Total GST") }}</label></div>
+    <div class="col-xs-2 ">{%- if doc.total_taxes_and_charges -%}
+      {{doc.get_formatted("total_taxes_and_charges") or '' }} {%- endif -%}
+    </div>
+</div>  
+
+{%- if doc.other_charges_calculation -%}
+{%- for row in doc.other_charges_calculation -%}
+    {%- if row.tax_amount -%}      
+<div class="row">
+    <div class="col-xs-6 text-right"></div>
+    <div class="col-xs-4 text-right"><label>{{ row.description }}</label></div>
+    <div class="col-xs-2 ">{{ row.get_formatted("tax_amount", doc) }}</div>
+</div> 
+    {%- endif -%}
+
+{%- endfor -%}
+{%- endif -%}
+{%- if doc.discount_amount -%}
+    <div class="row">
+         <div class="col-xs-6 text-right"></div>
+         <div class="col-xs-4 text-right"><label>{{ _("Discount") }}</label></div>
+         <div class="col-xs-2 ">{{ doc.get_formatted("discount_amount") }}</div>
+    </div> 
+ {%- endif -%}         
+           
+<div class="row">
+    <div class="col-xs-6 text-right"></div>
+    <div class="col-xs-4 text-right"><label>{{ _("Grand Total") }}</label></div>
+    <div class="col-xs-2 ">{{ doc.get_formatted("grand_total") }}</div>
+</div>
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>
