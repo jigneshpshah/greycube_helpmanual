@@ -1,0 +1,18 @@
+Select Doctype = Sales Invoice
+=============================================
+frappe.ui.form.on("Sales Invoice Item", "batch_no", function(frm, cdt, cdn) {
+	var d = locals[cdt][cdn];
+
+    	frappe.db.get_value("Batch", {"name": d.batch_no}, "expiry_date", function(value) {
+    		d.expiry_date = value.expiry_date;
+    	});
+});
+===================================================
+Select Doctype = Purchase Invoice
+frappe.ui.form.on("Purchase Invoice Item", "batch_no", function(frm, cdt, cdn) {
+	var d = locals[cdt][cdn];
+
+    	frappe.db.get_value("Batch", {"name": d.batch_no}, "expiry_date", function(value) {
+    		d.expiry_date = value.expiry_date;
+    	});
+});
