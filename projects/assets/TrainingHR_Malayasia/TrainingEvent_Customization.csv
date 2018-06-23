@@ -1,0 +1,50 @@
+Bulk Edit Fields,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Label,Type,Name,Mandatory,Unique,In List View,In Standard Filter,In Global Search,Bold,Precision,Length,Options,Depends On,Perm Level,Hidden,Read Only,Collapsible,Allow Bulk Edit,Collapsible Depends On,Ignore User Permissions,Allow on Submit,Report Hide,Remember Last Selected Value,Default,In Filter,Description,Print Hide,Print Hide If No Value,Print Width,Columns,Width
+label,fieldtype,fieldname,reqd,unique,in_list_view,in_standard_filter,in_global_search,bold,precision,length,options,depends_on,permlevel,hidden,read_only,collapsible,allow_bulk_edit,collapsible_depends_on,ignore_user_permissions,allow_on_submit,report_hide,remember_last_selected_value,default,in_filter,description,print_hide,print_hide_if_no_value,print_width,columns,width
+ , , , , , , , , ,Set non-standard precision for a Float or Currency field , ,"For Links, enter the DocType as range.
+For Select, enter list of Options, each on a new line. ","This field will appear only if the fieldname defined here has value OR the rules are true (examples): 
+myfield
+eval:doc.myfield=='My Value'
+eval:doc.age>18 ", , , , , , , , , , , , , , , ,"Print Width of the field, if the field is a column in a table ",Number of columns for a field in a Grid (Total Columns in a grid should be less than 11) , 
+The CSV format is case sensitive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Do not edit headers which are preset in the template,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+------,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Event Name,Data,event_name,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,
+Training Program,Link,training_program,,,,,,,,,Training Program,,,,,,,,,,,,,,,,,,,
+Event Status,Select,event_status,1,,1,1,,,,,"Scheduled
+Completed
+Cancelled",,,,,,,,,1,,,,,,,,,,
+Has Certificate,Check,has_certificate,,,,,,,,,,eval:doc.type == 'Seminar' || doc.type == 'Workshop' || doc.type == 'Conference' || doc.type == 'Exam',,,,,,,,,,,,,,,,,,
+,Column Break,column_break_2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Type,Select,type,1,,1,1,,,,,"Seminar
+Theory
+Workshop
+Conference
+Exam
+Internet
+Self-Study",,,,,,,,,,,,,,,,,,,
+Level,Select,level,,,,,,,,,"
+Beginner
+Expert
+Advance",eval:doc.type == 'Seminar' || doc.type == 'Workshop' || doc.type == 'Exam',,,,,,,,,,,,,,,,,,
+Company,Link,company,,,,,,,,,Company,,,,,,,,,,,,,,,,,,,
+,Section Break,section_break_4,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Trainer Name,Data,trainer_name,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Trainer Email,Data,trainer_email,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Training Cost,Currency,training_cost,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,Column Break,column_break_7,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Supplier,Link,supplier,,,,,,,,,Supplier,,,,,,,,,,,,,,,,,,,
+Contact Number,Data,contact_number,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Total Hours,Int,total_hours,1,,,,,,,,,,,,,,,,,,,,1,,,,,,,
+,Section Break,section_break_9,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Course,Link,course,,,,1,,,,,Course,,,,,,,,,,,,,,,,,,,
+Location,Data,location,1,,1,1,,,,,,,,,,,,,,,,,,,,,,,,
+,Column Break,column_break_12,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Start Time,Datetime,start_time,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+End Time,Datetime,end_time,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,Section Break,section_break_15,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Introduction,Text Editor,introduction,1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Attendees,Section Break,section_break_18,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Employees,Table,employees,,,,,,,,,Training Event Employee,,,,,,,,,1,,,,,,,,,,
+Amended From,Link,amended_from,,,,,,,,,Training Event,,,,1,,,,,,,,,,,1,,,,
+Employee Emails,Small Text,employee_emails,,,,,,,,,Email,,,1,,,,,,,,,,,,,,,,
