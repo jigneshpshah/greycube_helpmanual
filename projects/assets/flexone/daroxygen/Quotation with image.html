@@ -1,0 +1,164 @@
+
+
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+        <div class="row">
+            <div class="col-xs-12 text-center" ><h3><label>Quotation  عرض أسعار						
+</label></h3></div>
+
+        </div>
+           <br>
+        <div class="row">
+            <div class="col-xs-6 text-center"><label>{{_("From")}}:</label></div>
+            <div class="col-xs-6 text-center"><label>{{_("To")}}:</label></div>        </div>
+
+        <div class="row">
+            <div class="col-xs-6 text-left"><label>Dar Oxygen Incorporation </label></div>
+            <div class="col-xs-6"> <label>{{ doc.customer_name }} </br>{{ doc.customer_name_in_arabic or ''}} </label></div>
+        </div>
+<div class="row">
+            <div class="col-xs-6 text-left"><label>P.O. Box 13315 Riyadh 4658 Tel & Fax 011-4555417 </label></div>
+ 	<div class="col-xs-2 text-right"> <label> Attention to: </label> </div>
+           <div class="col-xs-4">{{ doc.contact_display or ''}} </div>
+        </div>
+           <br>
+        <div class="row">
+            <div class="col-xs-2 text-right"><label>Quotation No.</label></div>
+            <div class="col-xs-6">{{ doc.name }} &nbsp; {{ doc.get_formatted("transaction_date") or ''}} </div>
+            <div class="col-xs-2"><label>Validity:</label></div>
+            <div class="col-xs-2"> {{ doc.get_formatted("valid_till") or ''}}</div>
+        </div>
+
+<table class="table table-condensed table-hover table-bordered">
+        <tr>
+            <th>RFQNo</th>
+            <th>Catalogue</th>
+            <th style="text-align: center;">Manufacturer</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        {%- for row in doc.items -%}
+        <tr>
+            <td style="width: 5%;">{{ row.idx }}</td>
+
+            <td style="width: 40%;"><img src="{{ row.image }}" width="25%"> </td>
+
+            <td style="width: 25%; text-align: center;">{{ row.brand or '' }}</td>
+            <td style="width: 10%; text-align: center;">{{ row.qty }}</td>
+            <td style="width: 10%; text-align: right;">                
+                {{ row.get_formatted("rate", doc) or ''}}
+            <td style="width: 10%; text-align: right;">{{
+                row.get_formatted("amount", doc) or ''}}</td>
+        </tr>
+<tr>
+<td colspan="6" style="width: 100%;"> {{ row.description or '' }}  </td>
+</tr>
+{% if not loop.last%}
+        <tr>
+            <td>RFQNo</td>
+            <td>Catalogue</td>
+            <td style="text-align: center;">Manufacturer</td>
+            <td>Quantity</td>
+            <td>Price</td>
+            <td>Total</td>
+        </tr>
+{% endif%}
+        {%- endfor -%}
+    </tbody>
+</table>
+
+
+<div class="row">
+    <div class="col-xs-4 text-left"><label>DELIVERY PERIOD :</label></div>
+    <div class="col-xs-8 text-left"><label> </label></div>
+
+</div> 
+           <br>
+<div class="row">
+    <div class="col-xs-4 text-left"><label>WARRANTY</label></div>
+    <div class="col-xs-8 text-left"><label> </label></div>
+           <br>
+</div> 
+
+   </br>
+<div class="row">
+    <div class="col-xs-2 text-left"><label>GRAND TOTAL الاجمالى</label></div>
+    <div class="col-xs-8 text-left"> {{ doc.base_in_words | replace("only","Saudi Riyal Only
+فقط وقدره ريال سعودى لاغير") | replace("SAR","") }}   </div>
+    <div class="col-xs-2"><label>
+      {{ doc.get_formatted("total") or '' }}</label>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-xs-12 text-center"><label>TOTAL VALUE INCLUDES VAT AT {{ doc.taxes[0].rate or 0 }}% </label></div>
+
+</div> 
+<div class="row">
+
+    <div class="col-xs-12 text-center"><label>PAYMENT TERMS : {{ doc.payment_schedule[0].description or '' }} </label></div>
+
+</div> 
+
+
+
+</br>
+
+{% set u = frappe.get_doc("User", frappe.user) %}
+<div class="row">
+<div class="col-xs-6 text-center"><label>Sales Representative </label></div>
+
+<div class="col-xs-6 text-center"><label>Sales & Marketing Director</label></div>
+
+
+</div>  
+           <br>
+<div class="row">
+<div class="col-xs-2 text-left"><label> Signature: </label></div>
+<div class="col-xs-4"></div>
+<div class="col-xs-2 text-right"><label> Signature: </label></div>
+<div class="col-xs-4"></div>
+
+</div>  
+           <br>
+<div class="row">
+<div class="col-xs-2 text-left"><label> Name: </label></div>
+<div class="col-xs-4 text-left"><label>{{ u.first_name or ''}} &nbsp;{{ u.last_name  or ''}}</label></div>
+<div class="col-xs-2 text-right"><label> Name: </label></div>
+<div class="col-xs-4 text-left"><label>Dr. Ahmed Hammam </label></div>
+
+</div>  
+
+<div class="row">
+<div class="col-xs-2 text-left"><label> Mobile: </label></div>
+<div class="col-xs-4 text-left"><label>{{ u.mobile or ''}} </label></div>
+<div class="col-xs-2 text-right"><label> Mobile: </label></div>
+<div class="col-xs-4 text-left"><label>0599104502</label></div>
+
+</div>  
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>
