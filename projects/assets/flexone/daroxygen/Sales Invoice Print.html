@@ -1,0 +1,147 @@
+
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==0-%}
+    <div class="alert alert-info text-center">
+        <h4 style="margin: 0px;">{{ _("PROFORMA") }}</h4></div>
+    {%- endif -%}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+        <div class="row">
+            <div class="col-xs-12 text-center"  style="background-color: skyblue;"><h3><label>Invoice  فاتورة  						
+</label></h3></div>
+
+        </div>
+           <br>
+        <div class="row">
+            <div class="col-xs-2 text-right"><label>{{_("Bill To")}}:</label></div>
+            <div class="col-xs-6">{{ doc.customer_name }} </br>{{ doc.customer_name_in_arabic or ''}} </div>
+            <div class="col-xs-2"><label>Invoice Number :</label></div>
+            <div class="col-xs-2">{{ doc.name }} </div>
+        </div>
+           <br>
+        <div class="row">
+            <div class="col-xs-2 text-right"><label>PO No.</label></div>
+            <div class="col-xs-6">{{ doc.po_no or '' }} </div>
+            <div class="col-xs-2"><label>Invoice Date :</label></div>
+            <div class="col-xs-2">{{ doc.get_formatted("posting_date") or ''}} </div>
+        </div>
+           <br>
+        <div class="row">
+            <div class="col-xs-2 text-right"><label>Customer No.</label></div>
+            <div class="col-xs-6">{{ doc.customer }} </div>
+            <div class="col-xs-2"><label>VAT No.</label></div>
+            <div class="col-xs-2">300063839800003</div>
+        </div>
+
+              <br>
+        
+
+<table class="table table-condensed table-hover table-bordered">
+        <tr>
+            <th>Sr</th>
+            <th>Item البند</th>
+            <th>Description الوصف</th>
+            <th>Unit الوحدة</th>
+            <th>Quantity الكمية</th>
+            <th>Price السعر</th>
+            <th>Value القيمة</th>
+        </tr>
+        {%- for row in doc.items -%}
+        <tr>
+            <td style="width: 3%;">{{ row.idx }}</td>
+            <td style="width: 20%;"> {{ row.item_name or '' }}  </td>
+            <td style="width: 37%;"> {{ row.description or '' }}  </td>
+            <td style="width: 10%; text-align: center;">{{ row.stock_uom }}</td>
+            <td style="width: 10%; text-align: right;">{{ row.qty }}</td>
+            <td style="width: 10%; text-align: right;">                
+                {{ row.get_formatted("rate", doc) or ''}}
+            <td style="width: 10%; text-align: right;">{{
+                row.get_formatted("amount", doc) or ''}}</td>
+        </tr>
+        {%- endfor -%}
+    </tbody>
+</table>
+
+<div class="row">
+
+    <div class="col-xs-12">
+<table class="table table-condensed table-hover table-bordered">
+        <tr>
+            <th>Payment Terms</th>
+            <th>Description</th>
+            <th>DueDate</th>
+            <th>Invoice Portion</th>
+            <th class="text-right">Payment Amount</th>
+        </tr>
+        {%- for row in doc.payment_schedule -%}
+        <tr>
+            <td style="width: 35%;">{{ row.payment_term }}</td>
+            <td style="width: 20%;"> {{ row.description or '' }}  </td>
+            <td style="width: 15%; text-align: center;">{{ row.get_formatted("due_date") or ''}} </td>
+            <td style="width: 10%; text-align: right;">{{ row.invoice_portion }}</td>
+            <td style="width: 20%; text-align: right;">                
+                {{ row.get_formatted("payment_amount", doc) or ''}}
+        </tr>
+        {%- endfor -%}
+    </tbody>
+</table>
+</div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-4 text-left"><label>VAT :</label></div>
+    <div class="col-xs-8 text-left"><label>{{ doc.taxes[0].rate }}%.اجمالى قيمة الفاتوره يشمل ضريبة القيمة المضافة بنسبة </label></div>
+
+</div> 
+
+   </br>
+<div class="row">
+    <div class="col-xs-2 text-left"><label>Total Value الاجمالى</label></div>
+    <div class="col-xs-8 text-left"> {{ doc.base_in_words | replace("only","Saudi Riyal Only
+فقط وقدره ريال سعودى لاغير") | replace("SAR","") }}   </div>
+    <div class="col-xs-2"><label>
+      {{ doc.get_formatted("total") or '' }}</label>
+    </div>
+</div>
+</br>
+
+{% set u = frappe.get_doc("User", frappe.user) %}
+<div class="row">
+<div class="col-xs-2 text-left"><label>Made by:أعدت من قبل</label></div>
+<div class="col-xs-4 text-left"><label>{{ u.first_name or ''}} &nbsp;{{ u.last_name  or ''}}</label></div>
+<div class="col-xs-2 text-right"><label>Received by:     المستلم</label></div>
+<div class="col-xs-4"></div>
+
+</div>  
+<div class="row">
+<div class="col-xs-2 text-left"><label>       Signature: التوقيع </label></div>
+<div class="col-xs-4"></div>
+<div class="col-xs-2 text-right"><label>       Signature: التوقيع </label></div>
+<div class="col-xs-4"></div>
+
+</div>  
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>
