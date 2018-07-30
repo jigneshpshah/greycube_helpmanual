@@ -1,0 +1,173 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<style>
+    .print-format table, .print-format tr, 
+    .print-format td, .print-format div, .print-format p {
+        font-family: Calibri;
+        vertical-align: middle;
+    }
+    @media screen {
+        .print-format {
+            width: 8.3in;
+            padding: 0.25in;
+            min-height: 5.8in<style>
+    .print-format table, .print-format tr, 
+    .print-format td, .print-format div, .print-format p {
+        font-family: Calibri;
+        font-size: 12px;
+        line-height: 100%;
+        vertical-align: middle;
+    }
+    @media screen {
+        .print-format {
+            width: 8.3in;
+            padding: 0.25in;
+            min-height: 5.8in;
+        }
+    }
+</style>
+
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+
+<table cellpadding="0" style="font-size: 12px" frame="box">
+<tbody>
+<tr>
+<td style="text-align:left;"><label>Invoice time</label></td>
+<td style="text-align:left;">{{ doc.get_formatted("modified") }}</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td style="text-align: right;">رقم الفاتورة</td>
+<td style="text-align: right;">Invoice No:</td>
+<td style="text-align: left;">{{ doc.name or ''}}</td>
+</tr>
+<tr>
+<td style="text-align: left;">Invoice Print Time :</td>
+<td style="text-align: left;" >{{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Date'}) }} &nbsp;
+		{{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Time'}) }}</td>
+<td>&nbsp;</td>
+<td colspan="5" rowspan="4"><img src="/files/hamdanlogo.PNG" alt="logo"/></td>
+<td>&nbsp;</td>
+<td style="text-align: right;">;الرقم الضريبي</td>
+<td style="text-align: right;">VAT No:</td>
+<td style="text-align: left;">{{ doc.company_tax_id or ''}}</td>
+</tr>
+<tr>
+{% set u = frappe.get_doc("User", frappe.user) %}              
+<td>Invoice Sales:</td>
+<td>{{ u.first_name or ''}} &nbsp;{{ u.last_name  or ''}}</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td style="text-align: right;">العميل موبايل</td>
+<td>Customer Phone</td>
+<td>{{ doc.customer_mobile_no or ''}}</td>
+</tr>
+<tr>
+<td>اسم الزبون<br />Customer Name:</td>
+<td>{{ doc.customer or ''}} </td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td style="text-align: right;">قيمة الفاتورة</td>
+<td style="text-align: right;">Invoice Amount</td>
+<td style="text-align: left;">{{ doc.total or ''}}</td>
+</tr>
+<tr>
+<td>تاريخ الفاتورة<br />Invoice Date:</td>
+<td>{{ doc.get_formatted("posting_date")}}</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td style="text-align: right;">قيمة الفاتورة</td>
+<td style="text-align: right;">Invoice Discount:</td>
+<td style="text-align: left;">{{ doc.discount_amount or 0}}</td>
+</tr>
+<tr>
+<td>تاريخ التسليم او الوصول<br />Delivery Date:</td>
+<td>{{ doc.get_formatted("delivery_date")}}</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td style="text-align: right;">;شبكة الفاتورة</td>
+<td style="text-align: right;">Invoice Net</td>
+<td style="text-align: left;">{{ doc.net_total or ''}}</td>
+</tr>
+<tr>
+<td colspan="9" rowspan="4">{{ doc.optics_detail or ''}}</td>
+<td>مجموع الضريبة</td>
+<td style="text-align: right;">Invoice VAT:</td>
+<td style="text-align: left;">{{ doc.total_taxes_and_charges}}</td>
+</tr>
+<tr>
+<td style="text-align: right;">مجموع</td>
+<td style="text-align: right;">Total</td>
+<td style="text-align: left;">{{ doc.grand_total or ''}}</td>
+</tr>
+<tr>
+<td style="text-align: right;">دفع</td>
+<td style="text-align: right;">Paid</td>
+<td style="text-align: left;">{{ doc.base_paid_amount or 0}}</td>
+</tr>
+<tr>
+<td style="text-align: right;">ائتمان</td>
+<td style="text-align: right;">Credit</td>
+<td style="text-align: left;"> {{ doc.outstanding_amount}}</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-condensed table-hover table-bordered">
+<tbody>
+        <tr>
+            <th>رقم الشيء <br>Item No</th>
+            <th>اسم العنصر <br> Item Name</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Qty</th>
+            <th class="text-right">Disc</th>
+	    <th class="text-right">Net</th>
+            <th class="text-right">VAT 0%</th>
+	    <th class="text-right">VAT</th>
+            <th class="text-right">Total</th>
+        </tr>
+        {%- for row in doc.items -%}
+        <tr>
+            <td style="width: 10%;">{{ row.idx }}</td>
+            <td style="width: 20%;"> {{ row.item_name or '' }}  </td>
+            <td style="width: 10%; text-align: right;">{{ row.rate or 0}} </td>
+            <td style="width: 10%; text-align: right;">{{ row.qty }}</td>
+            <td style="width: 8%; text-align: right;">{{ row.discount_percentage }}</td>
+            <td style="width: 10%;text-align: right;"> {{ row.net_amount }}  </td>
+	    <td style="width: 8%; text-align: right;">{{ row.line_tax_rate }}</td>
+	    <td style="width: 10%; text-align: right;">{{ row.line_total_tax_amount }}</td>
+	    <td style="width: 12%; text-align: right;">{{ row.line_total_tax_amount or 0 +  row.amount or 0}}</td>
+        </tr>
+        {%- endfor -%}
+    </tbody>
+</table>
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+		</div>
+	</div>
+</div>
+	
