@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ doc.customer_name }}</title>
+	<meta name="generator" content="frappe">
+	<link type="text/css" rel="stylesheet"f
+        href="/assets/frappe/css/bootstrap.css">
+	<link type="text/css" rel="stylesheet"
+        href="/assets/frappe/css/font-awesome.css"><style>
+	@media screen {
+	.print-format-gutter {
+		background-color: #ddd;
+		padding: 0px 0px;
+	}
+	.print-format {
+		background-color: white;
+		box-shadow: 0px 0px 9px rgba(0,0,0,0.5);
+		max-width: 8.3in;
+		min-height: 11.69in;
+		padding: 0.75in;
+	    	margin: auto;
+	}
+
+	.print-format.landscape {
+		max-width: 11.69in;
+		padding: 0.2in;
+	}
+
+	.page-break {
+		padding: 30px 0px;
+		border-bottom: 1px dashed #888;
+	}
+
+	.page-break:first-child {
+		padding-top: 0px;
+	}
+
+	.page-break:last-child {
+		border-bottom: 0px;
+	}
+
+	/* mozilla hack for images in table */
+	body:last-child .print-format td img {
+		width: 100% !important;
+	}
+
+	@media(max-width: 767px) {
+		.print-format {
+			padding: 0.2in;
+		}
+	}
+}
+
+@media print {
+	.print-format p {
+		margin-left: 1px;
+		margin-right: 1px;
+	}
+}
+
+.data-field {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.data-field .value {
+	word-wrap: break-word;
+}
+
+.important .value {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.important label {
+	line-height: 1.8;
+	margin: 0px;
+}
+
+.table {
+	margin: 5px 0px 10px 0px;
+}
+
+.square-image {
+	width: 100%;
+	height: 0;
+	padding: 50% 0;
+	background-size: contain;
+	/*background-size: cover;*/
+	background-repeat: no-repeat !important;
+	background-position: center center;
+	border-radius: 4px;
+}
+
+.print-item-image {
+	object-fit: contain;
+}
+
+.pdf-variables,
+.pdf-variable,
+.visible-pdf {
+	display: none !important;
+}
+
+.print-format {
+	font-size: 8.0pt;
+	font-family: "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
+	-webkit-print-color-adjust:exact;
+}
+
+.page-break {
+	page-break-after: always;
+}
+
+.print-heading {
+	border-bottom: 1px solid #aaa;
+}
+
+.print-heading h2 {
+	margin: 0px;
+}
+.print-heading h4 {
+	margin-top: 5px;
+}
+
+table.no-border, table.no-border td {
+	border: 0px;
+}
+
+.print-format label {
+	/* wkhtmltopdf breaks label into multiple lines when it is inline-block */
+	display: block;
+}
+
+.print-format img {
+	max-width: 100%;
+}
+
+.print-format table td > .primary:first-child {
+	font-weight: bold;
+}
+
+.print-format td, .print-format th {
+	vertical-align: top !important;
+	padding: 6px !important;
+}
+
+.print-format p {
+	margin: 3px 0px 3px;
+}
+
+table td div {
+	
+}
+
+/* hack for webkit specific browser */
+@media (-webkit-min-device-pixel-ratio:0) {
+	thead, tfoot { display: table-row-group; }
+}
+
+[document-status] {
+	margin-bottom: 5mm;
+}
+
+.signature-img {
+	background: #fff;
+	border-radius: 3px;
+	margin-top: 5px;
+	max-height: 150px;
+}
+
+.print-heading {
+	text-align: right;
+	text-transform: uppercase;
+	color: #666;
+	padding-bottom: -30px;
+	margin-bottom: -30px;
+	border-bottom: 1px solid #d1d8dd;
+}
+
+.print-heading h2 {
+	font-size: 24px;
+}
+
+.print-format th {
+	background-color: #eee !important;
+	border-bottom: 0px !important;
+}
+
+/* modern format: for-test */
+
+.print-format {
+  margin-top: 0mm;
+  margin-left: 10mm;
+  margin-right: 0mm;
+}
+.section-break{ padding: 5 px 0 px; }
+
+#mdp-page-reset {
+   counter-reset: pagemhdp;
+}
+
+#mdp-page-increment::before {
+  counter-increment: pagemhdp;
+}
+
+#page-counter-mdp::before {
+  counter-increment: pagemhdp;
+  content: "Page " counter(pagemhdp);
+}
+
+	</style>
+</head>
+
+<body>
+
+
+	<!-- <div class="print-format-gutter"> -->
+	    <!-- <div class="print-format"> -->
+		
+<div class="page-break" id="mdp-page-reset">
+	<div  id="header-html" class="hidden-pdf" >	
+		
+	<div class="letter-head" id="mdp-page-increment"><div style="margin-top: 10px; margin-bottom: -50px;" id="letterhead-2-header"><div><b>YOUR COMPANY NAME</b></div>
+<div style="float: left; font-size: 8px;"><br>ADDRESS</div>
+
+<div style="float: right; font-family: BitstreamCharter; font-size: 8px; text-align: right; margin-top: -10px; margin-bottom: -10px;">CIN: xxxx, GSTIN: xxxx<br>EMAIL@EMAIL.COM</div>
+
+</div></div>    
+	</div>
+
+	<div id="footer-html" class="pdf-visible has-variables">
+		{% if not no_letterhead and footer %}
+		<div class="letter-head-footer">
+			<div>{{ footer }}</div>
+		</div>
+		{% endif %}
+		<p id="page-counter-mdp" class="text-center small page-number visible-pdf">
+		</p>
+	</div>
+	
+<div>
+<div class="print-heading">
+	<h6>
+		TAX INVOICE<br>
+		<small>{{ doc.name }}</small>
+	</h6>
+</div>
+<h6 id="page-count-mdp" class="text-center">
+	<small>Original for Recipient</small>
+	</h6>
+</div>
+
+    
+    <div class="row section-break">
+			<div class="col-xs-4 column-break">
+            
+                <div class="row important data-field" data-fieldname="posting_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.get_formatted("posting_date") }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="due_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Payment Due Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.due_date }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="reverse_charge" data-fieldtype="Select">
+			<div class="col-xs-5">
+
+				
+				<label>Reverse Charge</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.reverse_charge }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row important data-field" data-fieldname="customer_name" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer Name</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_name }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="customer_gstin" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer GSTIN</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_gstin }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="po_no" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer's Purchase Order</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.po_no }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="address_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Address</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-left value">
+				
+		{{ doc.shipping_address }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="contact_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Contact</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		 	{{ doc.contact_person }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div data-fieldname="items" data-fieldtype="Table">
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th style="width: 40px" class="table-sr">Sr</th>
+						
+						
+						
+						
+							<th style="width: 70%px;" class="" data-fieldname="items" data-fieldtype="Table">
+								Description</th>
+						
+						
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Quantity</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Rate</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Amount</th>
+						
+						
+					</tr>
+				</thead>
+				<tbody>
+					{%- for row in doc.items -%}
+					<tr>
+						<td class="table-sr">1</td>
+						
+						
+						
+						
+							<td class="" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        
+
+<div>
+	<div class="primary">
+			<strong>
+				{{ row.item_code }}
+			</strong>
+		</div>
+
+	<div style="margin-bottom: -15px;">{{ row.description }}</div><br/>
+
+	<div>
+				<strong>HSN/SAC: </strong>{{ row.gst_hsn_code }}
+				
+			</div>
+			
+</div>
+	</div></td>
+						
+						
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        <small class="pull-left">{{ row.uom or row.stock_uom }}</small>
+{{ row.qty }} 
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("rate", doc) }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("amount", doc) }}
+	</div></td>
+						
+						
+					</tr>
+					{%- endfor -%}
+				</tbody>
+			</table>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row">
+	
+		<div class="col-xs-5">
+			<label>Total</label></div>
+		<div class="col-xs-7 text-right">
+			{{ doc.get_formatted("total") }}
+		</div>
+	
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row">
+	<div class="col-xs-6"></div>
+	<div class="col-xs-6"><div class="row">
+				<div class="col-xs-5">
+					<label>IGST @ 18.0</label></div>
+				<div class="col-xs-7 text-right">
+					{{ doc.get_formatted("base_total_taxes_and_charges") }}
+				</div>
+			</div></div>
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row important data-field" data-fieldname="grand_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Grand Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("grand_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row important data-field" data-fieldname="rounded_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Rounded Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("rounded_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="in_words" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>In Words</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.in_words }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px 0px 0px" data-fieldname="other_charges_calculation" data-fieldtype="Text"><label>Tax Breakup</label><div class="tax-break-up" style="overflow-x: auto;">
+	{{ doc.other_charges_calculation }}
+</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="terms" data-fieldtype="Text Editor"><div>
+{{ doc.terms }}
+</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+<!-- </div> -->
+
+	<!-- </div> -->
+	 </div>
+
+
+<!--<div class="page-break"></div>--> <!--Original for Recipient-->
+
+	    
+<div class="page-break" id="mdp-page-reset">
+	<div id="header-html" class="hidden-pdf" >
+
+		<div class="letter-head" id="mdp-page-increment"><div style="margin-top: 10px; margin-bottom: -50px;" id="letterhead-2-header"><div><b>YOUR COMPANY NAME</b></div>
+<div style="float: left; font-size: 8px;"><br>ADDRESS</div>
+
+<div style="float: right; font-family: BitstreamCharter; font-size: 8px; text-align: right; margin-top: -10px; margin-bottom: -10px;">CIN: xxxx, GSTIN: xxxx<br>EMAIL@EMAIL.COM</div>
+
+</div></div>
+    
+	</div>
+
+	
+	<div id="footer-html" class="visible-pdf">
+		
+		<div class="letter-head-footer">
+			<div><br></div>
+		</div>
+		
+		<p class="text-center small page-number visible-pdf">
+			Page <span class="page"></span> of <span class="topage"></span>
+		</p>
+	</div>
+	
+<div>
+<div class="print-heading">
+	<h6>
+		TAX INVOICE<br>
+		<small>{{ doc.name }}</small>
+	</h6>
+</div>
+<h6 id="page-count-mdp" class="text-center">
+	<small>Duplicate for Supplier</small>
+	</h6>
+</div>
+    
+    <div class="row section-break">
+			<div class="col-xs-4 column-break">
+            
+                <div class="row important data-field" data-fieldname="posting_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.get_formatted("posting_date") }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="due_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Payment Due Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.due_date }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="reverse_charge" data-fieldtype="Select">
+			<div class="col-xs-5">
+
+				
+				<label>Reverse Charge</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.reverse_charge }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row important data-field" data-fieldname="customer_name" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer Name</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_name }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="customer_gstin" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer GSTIN</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_gstin }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="po_no" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer's Purchase Order</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.po_no }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="address_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Address</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-left value">
+				
+		{{ doc.shipping_address }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="contact_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Contact</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.contact_person }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div data-fieldname="items" data-fieldtype="Table">
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th style="width: 40px" class="table-sr">Sr</th>
+						
+						
+						
+						
+							<th style="width: 70%px;" class="" data-fieldname="items" data-fieldtype="Table">
+								Description</th>
+						
+						
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Quantity</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Rate</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Amount</th>
+						
+						
+					</tr>
+				</thead>
+				<tbody>
+					{%- for row in doc.items -%}
+					<tr>
+						<td class="table-sr">1</td>
+						
+						
+						
+						
+							<td class="" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        
+
+<div>
+	<div class="primary">
+			<strong>
+				{{ row.item_code }}
+			</strong>
+		</div>
+
+	<p><div style="margin-bottom: -15px;">{{ row.description }}</div></p><br/>
+
+	<div>
+				<strong>HSN/SAC: </strong>{{ row.gst_hsn_code }}
+				
+			</div>
+			
+</div>
+	</div></td>
+						
+						
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        <small class="pull-left">{{ row.uom or row.stock_uom }}</small>
+{{ row.qty }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("rate", doc) }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("amount", doc) }}
+	</div></td>
+						
+						
+					</tr>
+					{%- endfor -%}
+				</tbody>
+			</table>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row">
+	
+		<div class="col-xs-5">
+			<label>Total</label></div>
+		<div class="col-xs-7 text-right">
+			{{ doc.get_formatted("total") }}
+		</div>
+	
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row">
+	<div class="col-xs-6"></div>
+	<div class="col-xs-6"><div class="row">
+				<div class="col-xs-5">
+					<label>IGST @ 18.0</label></div>
+				<div class="col-xs-7 text-right">
+					{{ doc.get_formatted("base_total_taxes_and_charges") }}
+				</div>
+			</div></div>
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row important data-field" data-fieldname="grand_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Grand Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("grand_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row important data-field" data-fieldname="rounded_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Rounded Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("rounded_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="in_words" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>In Words</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.in_words }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="other_charges_calculation" data-fieldtype="Text"><label>Tax Breakup</label><div class="tax-break-up" style="overflow-x: auto;">
+	{{ doc.other_charges_calculation }}
+</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="terms" data-fieldtype="Text Editor"><div>{{ doc.terms }}</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+</div>
+
+	    </div>
+	</div>
+
+
+<!--<div class="page-break"></div>--> <!--Duplicate for Supplier-->
+
+
+<div class="print-format-gutter">
+	    <div class="print-format">
+		
+<div class="page-break" id="mdp-page-reset">
+	<div  id="header-html" class="hidden-pdf" >
+		
+		<div class="letter-head" id="mdp-page-increment"><div style="margin-top: 10px; margin-bottom: -50px;" id="letterhead-2-header"><div><b>YOUR COMPANY NAME</b></div>
+<div style="float: left; font-size: 8px;"><br>ADDRESS</div>
+
+<div style="float: right; font-family: BitstreamCharter; font-size: 8px; text-align: right; margin-top: -10px; margin-bottom: -10px;">CIN: xxxx, GSTIN: xxxx<br>EMAIL@EMAIL.COM</div>
+
+</div></div>
+    
+	</div>
+
+	
+	<div id="footer-html" class="visible-pdf">
+		
+		<div class="letter-head-footer">
+			<div><br></div>
+		</div>
+		
+		<p class="text-center small page-number visible-pdf">
+			Page <span class="page"></span> of <span class="topage"></span>
+		</p>
+	</div>
+	
+<div>
+<div class="print-heading">
+	<h6>
+		TAX INVOICE<br>
+		<small>{{ doc.name }}</small>
+	</h6>
+</div>
+<h6 id="page-count-mdp" class="text-center">
+	<small>Duplicate for Transporter</small>
+	</h6>
+</div>
+    
+    <div class="row section-break">
+			<div class="col-xs-4 column-break">
+            
+                <div class="row important data-field" data-fieldname="posting_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.get_formatted("posting_date") }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="due_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Payment Due Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.due_date }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="reverse_charge" data-fieldtype="Select">
+			<div class="col-xs-5">
+
+				
+				<label>Reverse Charge</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.reverse_charge }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row important data-field" data-fieldname="customer_name" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer Name</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_name }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="customer_gstin" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer GSTIN</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_gstin }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="po_no" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer's Purchase Order</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.po_no }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="address_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Address</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-left value">
+				
+		{{ doc.shipping_address }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="contact_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Contact</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.contact_person }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div data-fieldname="items" data-fieldtype="Table">
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th style="width: 40px" class="table-sr">Sr</th>
+						
+						
+						
+						
+							<th style="width: 70%px;" class="" data-fieldname="items" data-fieldtype="Table">
+								Description</th>
+						
+						
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Quantity</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Rate</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Amount</th>
+						
+						
+					</tr>
+				</thead>
+				<tbody>
+					{%- for row in doc.items -%}
+					<tr>
+						<td class="table-sr">1</td>
+						
+						
+						
+						
+							<td class="" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        
+
+<div>
+	<div class="primary">
+			<strong>
+				{{ row.item_code }}
+			</strong>
+		</div>
+
+	<div style="margin-bottom: -15px;">{{ row.description }}</div><br/>
+
+
+	<div>
+				<strong>HSN/SAC: </strong>
+				{{ row.gst_hsn_code }}
+			</div>
+			
+</div>
+	</div></td>
+						
+						
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        <small class="pull-left">Nos</small>
+{{ row.qty }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("rate", doc) }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("amount", doc) }}
+	</div></td>
+						
+						
+					</tr>
+					{%- endfor -%}
+				</tbody>
+			</table>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row">
+	
+		<div class="col-xs-5">
+			<label>Total</label></div>
+		<div class="col-xs-7 text-right">
+			{{ doc.get_formatted("total") }}
+		</div>
+	
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row">
+	<div class="col-xs-6"></div>
+	<div class="col-xs-6"><div class="row">
+				<div class="col-xs-5">
+					<label>IGST @ 18.0</label></div>
+				<div class="col-xs-7 text-right">
+					{{ doc.get_formatted("base_total_taxes_and_charges") }}
+				</div>
+			</div></div>
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row important data-field" data-fieldname="grand_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Grand Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("grand_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row important data-field" data-fieldname="rounded_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Rounded Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("rounded_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="in_words" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>In Words</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.in_words }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="other_charges_calculation" data-fieldtype="Text"><label>Tax Breakup</label><div class="tax-break-up" style="overflow-x: auto;">
+	{{ doc.other_charges_calculation }}</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="terms" data-fieldtype="Text Editor"><div>{{ doc.terms }}</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+</div>
+
+	    </div>
+	</div>
+
+
+<!--<div class="page-break"></div>--> <!--Duplicate for Transporter-->
+
+
+<div class="print-format-gutter">
+	    <div class="print-format">
+		
+<div class="page-break" id="mdp-page-reset">
+	<div  id="header-html" class="hidden-pdf" >
+		
+		<div class="letter-head" id="mdp-page-increment"><div style="margin-top: 10px; margin-bottom: -50px;" id="letterhead-2-header"><div><b>YOUR COMPANY NAME</b></div>
+<div style="float: left; font-size: 8px;"><br>ADDRESS</div>
+
+<div style="float: right; font-family: BitstreamCharter; font-size: 8px; text-align: right; margin-top: -10px; margin-bottom: -10px;">CIN: xxxx, GSTIN: xxxx<br>EMAIL@EMAIL.COM</div>
+
+
+</div></div>
+    
+	</div>
+
+	
+	<div id="footer-html" class="visible-pdf">
+		
+		<div class="letter-head-footer">
+			<div><br></div>
+		</div>
+		
+		<p class="text-center small page-number visible-pdf">
+			Page <span class="page"></span> of <span class="topage"></span>
+		</p>
+	</div>
+	
+<div>
+<div class="print-heading">
+	<h6>
+		TAX INVOICE<br>
+		<small>{{ doc.name }}</small>
+	</h6>
+</div>
+<h6 id="page-count-mdp" class="text-center">
+	<small>Triplicate for Supplier</small>
+	</h6>
+</div>
+    
+    <div class="row section-break">
+			<div class="col-xs-4 column-break">
+            
+                <div class="row important data-field" data-fieldname="posting_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.get_formatted("posting_date") }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="due_date" data-fieldtype="Date">
+			<div class="col-xs-5">
+
+				
+				<label>Payment Due Date</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.due_date }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+			<div class="col-xs-4 column-break">
+            
+                <div class="row  data-field" data-fieldname="reverse_charge" data-fieldtype="Select">
+			<div class="col-xs-5">
+
+				
+				<label>Reverse Charge</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.reverse_charge }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row important data-field" data-fieldname="customer_name" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer Name</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+{{ doc.customer_name }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="customer_gstin" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer GSTIN</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.customer_gstin }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="po_no" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>Customer's Purchase Order</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.po_no }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="address_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Address</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-left value">
+				
+		{{ doc.shipping_address }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="contact_display" data-fieldtype="Small Text">
+			<div class="col-xs-5">
+
+				
+				<label>Contact</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.contact_person }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div data-fieldname="items" data-fieldtype="Table">
+			<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th style="width: 40px" class="table-sr">Sr</th>
+						
+						
+						
+						
+							<th style="width: 70%px;" class="" data-fieldname="items" data-fieldtype="Table">
+								Description</th>
+						
+						
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Quantity</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Rate</th>
+						
+						
+						
+							<th style="width: 10%px;" class="text-right" data-fieldname="items" data-fieldtype="Table">
+								Amount</th>
+						
+						
+					</tr>
+				</thead>
+				<tbody>
+					{%- for row in doc.items -%}
+					<tr>
+						<td class="table-sr">1</td>
+						
+						
+						
+						
+							<td class="" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        
+
+<div>
+	<div class="primary">
+			<strong>
+{{ row.item_code }}
+			</strong>
+		</div>
+
+	<p><div style="margin-bottom: -15px;">{{ row.description }}</div><br></p>
+
+	<p>
+				<strong>HSN/SAC: </strong>
+				{{ row.gst_hsn_code }}
+			</p>
+			
+</div>
+	</div></td>
+						
+						
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+        <small class="pull-left">Nos</small>
+{{ row.qty }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("rate", doc) }}
+	</div></td>
+						
+						
+						
+							<td class="text-right" data-fieldname="items" data-fieldtype="Table">
+                                <div class="value">
+		{{ row.get_formatted("amount", doc) }}
+	</div></td>
+						
+						
+					</tr>
+					{%- endfor -%}
+				</tbody>
+			</table>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row">
+	
+		<div class="col-xs-5">
+			<label>Total</label></div>
+		<div class="col-xs-7 text-right">
+			{{ doc.get_formatted("total") }}
+		</div>
+	
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div class="row">
+	<div class="col-xs-6"></div>
+	<div class="col-xs-6"><div class="row">
+				<div class="col-xs-5">
+					<label>IGST @ 18.0</label></div>
+				<div class="col-xs-7 text-right">
+					{{ doc.get_formatted("base_total_taxes_and_charges") }}
+				</div>
+			</div></div>
+</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-6 column-break">
+            
+			</div>
+        
+			<div class="col-xs-6 column-break">
+            
+                <div class="row important data-field" data-fieldname="grand_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Grand Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("grand_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row important data-field" data-fieldname="rounded_total" data-fieldtype="Currency">
+			<div class="col-xs-5">
+
+				
+				<label>Rounded Total</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			text-right value">
+				
+		{{ doc.get_formatted("rounded_total") }}
+	
+			</div>
+		</div>
+            
+                <div class="row  data-field" data-fieldname="in_words" data-fieldtype="Data">
+			<div class="col-xs-5">
+
+				
+				<label>In Words</label>
+				
+				
+			</div>
+			<div class="col-xs-7
+			 value">
+				
+		{{ doc.in_words }}
+	
+			</div>
+		</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="other_charges_calculation" data-fieldtype="Text"><label>Tax Breakup</label><div class="tax-break-up" style="overflow-x: auto;">
+	{{ doc.other_charges_calculation }}
+</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+    <div class="row section-break">
+			<div class="col-xs-12 column-break">
+            
+                <div style="padding: 10px 0px" data-fieldname="terms" data-fieldtype="Text Editor"><div>{{ doc.terms }}</div>
+	</div>
+            
+			</div>
+        
+    </div>
+    
+</div>
+
+	    </div>
+	</div>
+
+
+
+</body></html>
