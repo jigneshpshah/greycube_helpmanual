@@ -1,34 +1,35 @@
 .navbar-header {
   display: none;
 }
-body[data-path="login"]{
+body.body_login{
     background: url(/files/bg_2-min.jpg) no-repeat center center fixed;
     background-size: cover;
 }
-body[data-path="login"] .hero-and-content{
+
+body.body_login div.hero-and-content {
     background-color: transparent;
 }
-body[data-path="login"] .btn-primary{
+#page-login .btn-primary{
 	    border-color: #41a541;
     background-color: #41a541;
 color: #fff;
 }
-body[data-path="login"] .btn-primary:hover, body[data-path="login"] .btn-primary:focus,body[data-path="login"] .btn-primary.focus, body[data-path="login"] .btn-primary:active, body[data-path="login"] .btn-primary.active, body[data-path="login"] .open > .dropdown-toggle.btn-primary {
+#page-login .btn-primary:hover, #page-login .btn-primary:focus,#page-login .btn-primary.focus, #page-login .btn-primary:active, #page-login .btn-primary.active, #page-login .open > .dropdown-toggle.btn-primary {
     color: #fff;
     background-color: #3a933a;
     border-color: #3a933a;
 }
-body[data-path="login"] .form-footer, body[data-path="login"] .form-footer a{
+#page-login .form-footer, #page-login .form-footer a{
     font-size: 12px;
     color: #f5f5f5;
     font-weight: bold;
 }
-body[data-path="login"] .login-content .btn{
+#page-login .login-content .btn{
 	    margin-top: 25px;
 }
-body[data-path="login"] .indicator.blue::before, body[data-path="login"] .indicator-right.blue::after{
+#page-login .indicator.blue::before, #page-login .indicator-right.blue::after{
 	background-color: #3a933a;
 }
-body[data-path="login"] .page-card{
+#page-login .page-card{
 	border-radius: 0;
 }
