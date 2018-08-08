@@ -29,7 +29,7 @@
 </div>
                       <hr>
 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{ _("Owner Details")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{ _("Owner Details")}}</label></h5></div>
         </div>
 
                       
@@ -43,7 +43,7 @@
         </div>
     <hr>
 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Property Coordinates")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Property Coordinates")}}</label></h5></div>
         </div>
 
 
@@ -64,7 +64,7 @@
         </div>
     <hr>
 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Property Details")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Property Details")}}</label></h5></div>
         </div>
                       
 
@@ -109,7 +109,7 @@
         </div>
 <hr>
 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Building Details")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Building Details")}}</label></h5></div>
         </div>
                       
     
@@ -129,12 +129,13 @@
 	
      <hr>
 	 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Property Features")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Property Features")}}</label></h5></div>
         </div>
                       
 
 		<div class="row">
-		<ul>
+	<div class="col-xs-12 text-left">
+	<ul>
 		{% if doc.intercom %}<li><label>{{_("Intercom")}}</label></li>{%endif %} 
 		{% if doc.digicode %}<li><label>{{_("Digicode")}}</label></li>{%endif %} 
 		 {% if doc.alarm %}<li><label>{{_("Alarm")}}</label></li>{%endif %} 
@@ -163,12 +164,12 @@
 		 {% if doc.refrigerator %}<li><label>{{_("Refrigerator")}}</label></li>{%endif %} 
 		{% if doc.storage %}<li><label>{{_("Storage")}}</label></li>{%endif %} 
 		{% if doc.tile %}<li><label>{{_("Tile")}}</label></li>{%endif %} </ul>
-	</div>
+	</div>	</div>
 
     <hr> 
 	 
 	 <div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Type Of Heating")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Type Of Heating")}}</label></h5></div>
         </div>
 
           
@@ -197,7 +198,7 @@
         </div>
 		
 	<div class="row">
-            <div class="col-xs-12 text-left"><label>{{_("Enviornment")}}</label></div>
+            <div class="col-xs-12 text-left"><h5><label>{{_("Enviornment")}}</label></h5></div>
         </div>
               
 			
