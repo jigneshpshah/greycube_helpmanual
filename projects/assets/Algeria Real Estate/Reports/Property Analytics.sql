@@ -1,0 +1,22 @@
+select 
+P.property_name AS "Property:Text:150", 
+P.property_type AS "Property Type:Text:120",
+P.property_status AS "Property Status:Text:130",
+P.city AS "City:Text:150",
+P.postal_code AS "Postal Code:Text:100",
+P.sale_price AS "Sale Price:Currency:120",
+P.negotiable AS "Negotiable:Text:100",
+P.rent_price AS "Rent Price:Currency:120",
+P.total_floors AS "Total Floors:Int:100",
+P.fnr AS "FNR:Text:100",
+P.rooms AS "Rooms:Text:100",
+P.size_sq_mt AS "Space Sq mt:Text:100",
+P.baths AS "Baths:Text:100",
+P.year_built AS "Year Built:Text:100",
+P.gaurdian AS "Gaurdian:Text:100",
+P.sector AS "Sector:Text:100",
+P.district AS "District:Text:100",
+P.customer AS "Property Owner:Text:120",
+P.telephone AS "Owner Contact:Text:120",
+P.email  AS "Owner Email:Text:150"
+from `tabProperty` AS P ;
