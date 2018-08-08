@@ -14,8 +14,8 @@ P.customer AS "Property Owner:Text:120",
 P.telephone AS "Owner Contact:Text:120",
 P.email  AS "Owner Email:Text:100",
 PT.commission_from_owner AS "Commission From Owner:Currency:170",
-IF(PT.is_paid_by_owner , 'Yes', 'No')AS "Paid by Owner:Text:120"
-
+IF(PT.is_paid_by_owner , 'Yes', 'No')AS "Paid by Owner:Text:120",
+PT.transaction_status AS "Transaction Status:Text:130"
 from `tabProperty`AS P INNER JOIN
 `tabProperty Transaction` AS PT 
 ON PT.property = P.name 
