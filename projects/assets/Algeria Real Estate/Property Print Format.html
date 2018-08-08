@@ -1,0 +1,242 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+        <div class="row">
+	   
+            <div class="col-xs-12 text-center" ><h1><label>{{ _("PROPERTY")}} </label></h1></div>
+
+        </div>
+
+                      <hr>
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>{{ _("Property")}} </label></div>
+            <div class="col-xs-3"> {{doc.property_name}}</div>
+            <div class="col-xs-3 text-right"><label>Date:</label></div>
+            <div class="col-xs-3">{{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Date'}) }} </div>
+
+</div>
+                      <hr>
+<div class="row">
+            <div class="col-xs-12 text-left"><label>{{ _("Owner Details")}}</label></div>
+        </div>
+
+                      
+        <div class="row">
+            <div class="col-xs-2 text-left"><label>{{ _("Owner")}}</label></div>
+            <div class="col-xs-2">{{ doc.customer or ''}} </div>
+	    <div class="col-xs-2 text-left"><label>{{ _("Telephone")}}</label></div>
+            <div class="col-xs-2">{{ doc.telephone or ''}}</div>
+            <div class="col-xs-2 text-left"><label>Email:</label></div>
+            <div class="col-xs-2">{{ doc.email or ''}}</div>
+        </div>
+    <hr>
+<div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Property Coordinates")}}</label></div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Floor")}}</label></div>
+            <div class="col-xs-2">{{ doc.floor or ''}} </div>
+	    <div class="col-xs-2 text-left"><label>{{_("Address")}}</label></div>
+            <div class="col-xs-2">{{ doc.address or '' }}</div>
+            <div class="col-xs-2 text-left"><label>{{_("Postal Code")}}</label></div>
+            <div class="col-xs-2">{{ doc.postal_code }}</div>
+        </div>
+    <br>
+ <div class="row">
+            <div class="col-xs-3 text-left"><label>{{_("City")}}</label></div>
+            <div class="col-xs-3">{{ doc.city or ''}} </div>
+	    <div class="col-xs-3 text-left"><label>Country:</label></div>
+            <div class="col-xs-3">{{ doc.country or '' }}</div>
+        </div>
+    <hr>
+<div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Property Details")}}</label></div>
+        </div>
+                      
+
+        <div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Property Type")}}</label></div>
+            <div class="col-xs-2">{{ doc.property_type or ''}} </div>
+			<div class="col-xs-2 text-left"><label>{{_("Property Status")}}</label></div>
+            <div class="col-xs-2">{{ doc.property_status or '' }}</div>
+			<div class="col-xs-2 text-left"><label>{{_("Rooms")}}</label></div>
+            <div class="col-xs-2">{{ doc.rooms or '' }}</div>
+		
+  
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Space (Sq mt)")}}</label></div>
+            <div class="col-xs-2">{{ doc.size_sq_mt or ''}} </div>
+			<div class="col-xs-2 text-left"><label>{{_("Baths")}}</label></div>
+            <div class="col-xs-2">{{ doc.baths or '' }}</div>
+			<div class="col-xs-2 text-left"><label>{{_("FNR")}}</label></div>
+            <div class="col-xs-2">{{ doc.fnr or '' }}</div>
+		
+  
+        </div>
+
+
+            <div class="row">
+			
+	    {% if doc.property_status == "For Sale" or doc.property_status == "Sold" or doc.property_status == "For Rent and Sale" %}
+            <div class="col-xs-2 text-left"><label>{{_("Sale Price")}}</label></div>
+            <div class="col-xs-2">{{ doc.get_formatted("sale_price") }} </div>
+			<div class="col-xs-2 text-left"><label>{{_("Negotiable")}} </label></div>
+			<div class="col-xs-2"> {{ doc.negotiable or '' }} </div>
+		
+			</div>
+	  {% else%}
+            <div class="col-xs-2 text-left"><label>{{_("Rent Price (Monthly)")}}</label></div>
+            <div class="col-xs-2">{{ doc.get_formatted("rent_price") }}  </div>
+        {%endif %}
+        </div>
+<hr>
+<div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Building Details")}}</label></div>
+        </div>
+                      
+    
+	<div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Year built")}}</label></div>
+            <div class="col-xs-2">{{ doc.year_built or ''}} </div>
+			<div class="col-xs-2 text-left"><label>{{_("Total Floors")}}</label></div>
+            <div class="col-xs-2">{{ doc.total_floors or '' }}</div>
+			<div class="col-xs-2 text-left"><label>{{_("Gaurdian")}}</label></div>
+            <div class="col-xs-2">{{ doc.gaurdian or '' }}</div>
+		
+  
+        </div>
+		<div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Orientation")}}</label></div>
+            <div class="col-xs-10">{{ doc.orientation or ''}} </div>
+	
+     <hr>
+	 <div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Property Features")}}</label></div>
+        </div>
+                      
+
+		<div class="row">
+		<ul>
+		{% if doc.intercom %}<li><label>{{_("Intercom")}}</label></li>{%endif %} 
+		{% if doc.digicode %}<li><label>{{_("Digicode")}}</label></li>{%endif %} 
+		 {% if doc.alarm %}<li><label>{{_("Alarm")}}</label></li>{%endif %} 
+		 {% if doc.armoured_door %}<li><label>{{_("Armoured Door")}}</label></li>{%endif %} 
+		 {% if doc.terrace %}<li><label>{{_("Terrace")}}</label></li>{%endif %} 
+		 {% if doc.balcony %}<li><label>{{_("Balcony")}}</label></li>{%endif %} 
+		 {% if doc.garage %}<li><label>{{_("Garage")}}</label></li>{%endif %} 		
+		 {% if doc.parking %}<li><label>{{_("Parking")}}</label></li>{%endif %} 
+		 {% if doc.cellar %}<li><label>{{_("Cellar")}}</label></li>{%endif %} 
+		 {% if doc.on_ground_exterior %}<li><label>{{_("On Ground Exterior")}}</label></li>{%endif %} 
+		 {% if doc.internet %}<li><label>{{_("Internet")}}</label></li>{%endif %} 
+		 {% if doc.microwave %}<li><label>{{_("Microwave")}}</label></li>{%endif %} 
+		 {% if doc.double_glazing %}<li><label>{{_("Double glazing")}}</label></li>{%endif %} 
+		 {% if doc.dishwasher %}<li><label>{{_("Dishwasher")}}</label></li>{%endif %} 
+		 {% if doc.empty_garbage %}<li><label>{{_("Empty Garbage")}}</label></li>{%endif %} 
+		 {% if doc.dryer %}<li><label>{{_("Dryer")}}</label></li>{%endif %} 
+		 {% if doc.closets %}<li><label>{{_("Closets")}}</label></li>{%endif %} 
+		 {% if doc.antenna_tv %}<li><label>{{_("Antenna TV")}}</label></li>{%endif %} 
+         {% if doc.phone_cable %}<li><label>{{_("Phone Cable")}}</label></li>{%endif %} 
+		 {% if doc.water %}<li><label>{{_("Water")}}</label></li>{%endif %} 
+		 {% if doc.electricity %}<li><label>{{_("Electricity")}}</label></li>{%endif %} 
+		 {% if doc.gas %}<li><label>{{_("Gas")}}</label></li>{%endif %} 
+		 {% if doc.wardrobe %}<li><label>{{_("Wardrobe")}}</label></li>{%endif %} 
+		 {% if doc.playground %}<li><label>{{_("Playground")}}</label></li>{%endif %} 
+		 {% if doc.oven_range %}<li><label>{{_("Oven/Range")}}</label></li>{%endif %} 
+		 {% if doc.refrigerator %}<li><label>{{_("Refrigerator")}}</label></li>{%endif %} 
+		{% if doc.storage %}<li><label>{{_("Storage")}}</label></li>{%endif %} 
+		{% if doc.tile %}<li><label>{{_("Tile")}}</label></li>{%endif %} </ul>
+	</div>
+
+    <hr> 
+	 
+	 <div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Type Of Heating")}}</label></div>
+        </div>
+
+          
+	<div class="row">
+		<ul>
+		{% if doc.individual %}<li><label>{{_("Individual")}}</label></li>{%endif %}
+		{% if doc.collective %}<li><label>{{_("Collective")}}</label></li>{%endif %}
+		{% if doc.fuel_oil %}<li><label>{{_("Fuel Oil")}}</label></li>{%endif %}
+		{% if doc.electricity_heating %}<li><label>{{_("Electricity")}}</label></li>{%endif %}
+		{% if doc.gas_heating %}<li><label>{{_("Gas")}}</label></li>{%endif %}
+		{% if doc.floor_ceil_heating %}<li><label>{{_("Floor Ceiling")}}</label></li>{%endif %}
+		{% if doc.radiator %}<li><label>{{_("Radiator")}}</label></li>{%endif %}
+		{% if doc.chimney %}<li><label>{{_("Chimney")}}</label></li>{%endif %}
+		</ul>
+	</div>
+
+     <hr>
+	 
+	 	<div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Sector")}}</label></div>
+            <div class="col-xs-2">{{ doc.sector or ''}} </div>
+			<div class="col-xs-2 text-left"><label>{{_("District")}}</label></div>
+            <div class="col-xs-2">{{ doc.district or '' }}</div>
+			
+  
+        </div>
+		
+	<div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Enviornment")}}</label></div>
+        </div>
+              
+			
+		<div class="row">
+		<ul>
+		{% if doc.primary_school %}<li><label>{{_("Primary School")}}</label></li>{%endif %}
+		{% if doc.secondary_school %}<li><label>{{_("Secondary School")}}</label></li>{%endif %}
+		{% if doc.town_centre %}<li><label>{{_("Town Centre")}}</label></li>{%endif %}
+		{% if doc.metro_tram %}<li><label>{{_("Metro/Tram")}}</label></li>{%endif %}
+		{% if doc.bus %}<li><label>{{_("Bus")}}</label></li>{%endif %}
+		{% if doc.railway_station %}<li><label>{{_("Rail Station")}}</label></li>{%endif %}
+		{% if doc.shops %}<li><label>{{_("Shops")}}</label></li>{%endif %}
+		{% if doc.market %}<li><label>{{_("Market")}}</label></li>{%endif %}
+		</ul>
+	</div>
+	<hr>
+
+	 <div class="row">
+            <div class="col-xs-12 text-left"><label>{{_("Property Photo")}}</label></div>
+			</br>
+			<img src="{{ doc.property_photo }}" width="50%">
+        </div>
+	
+	<br>
+	 <div class="row">
+            <div class="col-xs-2 text-left"><label>{{_("Notes")}}</label></div>
+			<div class="col-xs-10 text-left">{{ doc.notes or ''}} </label></div>
+			</div>
+	
+          
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>
