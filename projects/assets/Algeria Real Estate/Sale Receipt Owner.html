@@ -1,0 +1,119 @@
+
+
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {%- if doc.meta.is_submittable and doc.docstatus==0-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("DRAFT") }}</h4></div>
+    {%- endif -%}
+
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+
+        <div class="row">
+	    {% if doc.transaction_type == "Sale" %}
+            <div class="col-xs-12 text-center" ><h1><label> Reçu de vente </label></h1></div>
+	{% else%}
+            <div class="col-xs-12 text-center" ><h1><label>{{_("Cancelled / Not Applicable")}} </label></h1></div>
+	{%endif %}
+
+        </div>
+
+
+                      <br>
+        <div class="row">
+            <div class="col-xs-3 text-left"><h4><label>{{doc.name}} </label></h4></div>
+            <div class="col-xs-3"> </div>
+            <div class="col-xs-3 text-right"><label>Date:</label></div>
+            <div class="col-xs-3">{{ doc.get_formatted("owner_payment_date") or ''}} </div>
+
+</div>
+                      <hr>
+<br>
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>Client</label></div>
+            <div class="col-xs-3">{{ doc.client }} </div>
+            <div class="col-xs-3 text-right"><label>Telephone:</label></div>
+            <div class="col-xs-3"></div>
+
+        </div>
+    <br>
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>Address/Origin:</label></div>
+            <div class="col-xs-3"> </div>
+
+            <div class="col-xs-3 text-right"><label>National ID Card:</label></div>
+            <div class="col-xs-3"> </div>
+        </div>
+    <br>
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>Property Type:</label></div>
+            <div class="col-xs-3"> </div>
+
+            <div class="col-xs-3 text-right"><label>Advert Seen On :</label></div>
+            <div class="col-xs-3">{{ doc.advert_seen_on }} </div>
+
+        </div>
+<br>
+
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>Sale Price:</label></div>
+            <div class="col-xs-3 text-left">{{ doc.get_formatted("sale_price") }}  </div>
+
+            <div class="col-xs-3 text-right"><label>Actual Sale Price:</label></div>
+            <div class="col-xs-3">{{ doc.get_formatted("actual_sale_price") }} </div>
+        </div>
+
+
+<br>
+<hr>
+        <div class="row">
+            <div class="col-xs-12 text-left"><label> <h3> Sales Commission </h3> </label></div>
+
+        </div>
+
+<br>
+        <div class="row">
+            <div class="col-xs-3 text-left"><label>Sale Commission Amount from Owner:</label></div>
+            <div class="col-xs-9">{{ doc.get_formatted("commission_from_owner") }}  </div>
+        </div>
+
+<br>
+    
+        <div class="row">
+            <div class="col-xs-12 text-center"><label> <h3> Reçu avec Merci </h3> </label></div>
+</div>
+
+     <br>
+     <br>
+        <div class="row">
+<div class="row">
+<div class="col-xs-6 text-left"><label> <u> Signature du destinataire: </u></label></div>
+
+<div class="col-xs-6 text-right"><label> <u> Signature and  Stamp: </u></label></div>
+
+
+</div>  
+          
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>    
