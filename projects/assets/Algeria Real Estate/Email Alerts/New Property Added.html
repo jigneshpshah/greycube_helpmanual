@@ -1,9 +1,12 @@
-<h2> New Property is added just now. <br> {{ doc.property_name}}</h2> <br>
+<h2> New Property is added just now. <br>
+Property Name :  {{ doc.property_name}}</h2> <br>
 <p>Property Detail:</p>
 <ul>
-  <li>Property Type : {{ doc.property_type}}</li>
-  <li>Property Status : {{ doc.property_status }}</li>
-  <li>Property Owner : {{ doc.contact_person_name }}</li>
-  <li>Telephone : {{ doc.telephone }}</li>
-  <li>Email : {{ doc.customer_email }}</li>
+  <li>Property Name : {{ doc.property_name}}</li>
+  <li>City : {{ doc.city or ''}}</li>
+  <li>Property Type : {{ doc.property_type or ''}}</li>
+  <li>Property Status : {{ doc.property_status or '' }}</li>
+  <li>Property Owner : {{ doc.contact_person_name or '' }}</li>
+  <li>Telephone : {{ doc.telephone or '' }}</li>
+  <li>Email : {{ doc.email or '' }}</li>
 </ul>
