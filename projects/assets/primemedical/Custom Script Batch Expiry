@@ -1,3 +1,5 @@
+On Change of Item Batch No is fetched, 
+Here script will fetch expiry date based on the seleciton of the batch
 Select Doctype = Sales Invoice
 =============================================
 frappe.ui.form.on("Sales Invoice Item", "batch_no", function(frm, cdt, cdn) {
