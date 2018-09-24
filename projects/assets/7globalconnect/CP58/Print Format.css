@@ -1,0 +1,74 @@
+body, page[size="A4"] {
+	margin: 0;
+	box-shadow: 0;
+}
+mark, p.mark, table tr td.mark {
+	background-color: #000000 !important;
+	color: #ffffff !important;
+	padding: 5px; 
+}
+mark b, p.mark b, mark i, p.mark i{
+	color: #ffffff !important;
+}
+mark small, p.mark small{
+	color: #ffffff !important;
+}
+body {
+	font-family: Calibri;
+}
+
+
+
+@media screen, print {
+table{
+	border:none !important;
+	width:100%;
+	padding:0 !important;
+	margin:0 !important;
+}
+.print-format table tr td{
+	border:none;
+	padding:1px !important;
+	margin:0 !important;
+	font-size:12px !important;
+	line-height:14px !important;
+}
+page[size="A4"] {
+	background: white;
+	width: 21cm;
+	height: 29.7cm;
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 0cm;
+}
+mark , p.mark, .mark{
+	background-color: #000 !important;
+	color: #fff !important;
+	padding: 3px; 
+	margin-top: 5px !important;
+}
+.smalll{
+	font-size:11px !important;
+	line-height:12px !important;
+}
+hr{
+	    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+    border: 0;
+    border-top: 1px solid #d1d8dd !important;
+}
+.border{
+	padding:2px !important;
+	    padding-left: 6px !important;
+		border:1px solid #ddd !important;
+		width:100% !important;
+		display:block;
+}
+mark b, p.mark b, mark i, p.mark i{
+	color: #ffffff !important;
+}
+mark small, p.mark small{
+	color: #ffffff !important;
+}
+p{ margin:0 !important;}
+}
