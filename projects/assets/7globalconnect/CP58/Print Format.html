@@ -1,0 +1,174 @@
+<page size="A4">
+  <div class="row">
+    <div class="col-lg-12 text-right">CP58[Pin. 1/2013]</div>
+  </div>
+  <div class=" text-center">
+    <p> <b>PENVATABAVARAN INSENTIF BERBENTUK WANG TUNAI DAN BUKAN WANG TUNAI KEPADAEJEN <br>
+      PENGEDAR AT AU PENGAGIH TERTAKLUK KEP ADA SEKSVEN 83<small>A</small> AKTA CUKAI PENDAPATAN 1967</b><br>
+      <i>STATEMENT OF MONETARY AND NON-MONETARY INCENTIVE PAYMENT TO AN AGENT,<br>
+      DEALER OR DISTRIBUTOR PURSUANT TO SECTION 83A OF THE INCOME TAX ACT 1967 <br>
+      </i> <small> <b>Borang ini dite tapkan di bawah seksyen 152 Akta Cukai Pendapatan 1967 </b> <br>
+      <i> This form is prescribed under section 152 of the Income Tax Act 1967 </i> </small> </p>
+  </div>
+  <hr>
+  <div class=" text-center">
+    <p>BAGI TAHUN BERAKHIR 31 DISEMBER/ <br>
+      <i> FOR THE YEAR ENDED 31 DECEMBER </i>
+      <mark><b>{{frappe.utils.get_datetime(doc.to_date).strftime("%Y")}} </b></mark>
+    </p>
+  </div>
+  <div class="text-left" style="margin-top:5px;">
+    <p class="mark"> BAHAGIAN AI <small> <i>PART A: </i></small> MAKLUMAT SYARIKAT PEMBAYAR / <small> <i>PAYER COMPANY'S PARTICULARS </i></small>
+    </p>
+    <table>
+    	<tr>
+			<td width="15%"> 1. Nama <small><i>/ Name</i></small> </td>
+            <td>   <span class="border border-light"> {{doc.company}}</span>   </td>
+        </tr>
+        <tr>
+			<td>2. Alamat <small><i> / Address</i></small>  </td>
+            <td><span class="border border-light"> {{doc.company_address}}</span>   </td>
+        </tr>
+    </table>
+    <table>
+    	<tr>
+			<td width="45%">3. No. Rujukan (No. Pendaftaran) <small><i>/Reference No. (Registration No.)</i></small> </td>
+            <td>   <span class="border border-light"> {{doc.registration_no}}</span>   </td>
+        </tr>
+        <tr>
+			<td>4. No. Cukai Pendapatan <small><i>/Income Tax No. </i></small>  </td>
+            <td><span class="border border-light">{{doc.company_income_tax_no or ''}} </span></td>
+        </tr>
+    </table>
+  </div>
+  <div class=" text-left">
+    <p class="mark">
+      BAHAGIAN B <small> <i>/PART B: </i></small> MAKLUMAT PENERIMA / <small> <i>RECEIPIENT'S PARTICULARS </i></small>
+    </p>
+    <table>
+    	<tr>
+			<td width="15%"> 1. Nama <small><i>/ Name</i></small> </td>
+            <td>   <span class="border border-light"> {{doc.sales_person}}</span>   </td>
+        </tr>
+        <tr>
+			<td>2. Alamat <small><i> / Address</i></small>  </td>
+            <td><span class="border border-light"> {{doc.sales_person_address}}</span>   </td>
+        </tr>
+    </table>
+    <table>
+    	<tr>
+			<td width="45%">3.  No. Pendaftaran/ Kad Pengenalan /Polis / Tentera /Passport * <br> <small><i>/Registration /Identity Card / Police/ Army / Passport No. *  (*Potong yang tidak berk enaan/ Delete whichever is not applicable) </i></small> </td>
+            <td>   <span class="border border-light"> {{doc.sales_person_passport}}</span>   </td>
+        </tr>
+        <tr>
+			<td width="40%">4. No. Cukai Pendapatan <small><i>/Income Tax No. </i></small> </td>
+            <td>   <span class="border border-light">  &nbsp; </span>   </td>
+        </tr>
+        <tr>
+			<td>5. Mastaudin di Malaysia <small><i>/Resident in Malaysia </i></small></td>
+            <td><span class="border border-light" style="display: inline;">{% if doc.is_malyasian_resident%} 1 {% else %} 2
+        {% endif %} </span> &nbsp; 1=Ya Yes/  &nbsp;  &nbsp; 2=Tidak No  </td>
+        </tr>
+    </table>
+   
+  </div>
+  <div class=" text-left">
+    <p class="mark">
+      BAHAGIAN C <small> <i>/PART C: </i></small> MAKLUMAT BAYARAN INSENTIF / <small> <i>PARTICULARS OF INCENTIVE PAYMENT </i></small>
+    </p>
+    
+     <table>
+    	<tr>
+			<td>1. Nilai insentif berbe ntuk wang tunai <small><i> Value of monetary incentive</i></small> <b>RM</b></td>
+            <td colspan="2"> </td>
+        </tr>
+     </table>
+     <table>   
+        <tr>
+			<td> &nbsp;  A. Komesin /bonus/ <small><i>Commission /bonus</i> </small></td>
+            <td colspan="2"><span class="border border-light  text-right">{{doc.total_commission}} </span>   </td>
+        </tr>
+        <tr>
+			<td> &nbsp;  B. Lain-lain <small><i>/Others</i> </small> </td>
+            <td><span class="border border-light"> Incentives/Subsidies </span>  </td>
+            <td> <span class="border border-light text-right"> 0.00 </span> </td>
+        </tr>
+    </table>
+    <div class="text-center smalll"> (Sila nyatakan <i>/ Please specify </i>) </div>
+    
+    <table>
+    	<tr>
+			<td>2. Nilai insentif berbe ntuk bukan wang tunai <small><i>Value of non-monetary incentive</i></small> </td>
+            <td colspan="2"> <span class="border border-light text-right"> 0.00</span>   </td>
+        </tr>
+     </table>
+    <table>   
+        <tr>
+			<td> &nbsp;  A. Kenderaan <small><i>/Vehicle</i> </small></td>
+            <td colspan="2"><span class="border border-light text-right">0.00 </span>   </td>
+        </tr>
+        <tr>
+			<td> &nbsp;  B. Rumah <small><i>/House</i></small> </td>
+            <td  colspan="2"> <span class="border border-light text-right"> 0.00 </span> </td>
+        </tr>
+        <tr>
+			<td> &nbsp;  C. Pakej pelancungan / perjalanan <small><i>/Tour /travel package</i></small> </td>
+            <td  colspan="2"> <span class="border border-light text-right"> 0.00 </span> </td>
+        </tr>
+        </table>
+    <table>    
+         <tr>
+			<td width="25%"> &nbsp;  D. Lain-lain <small><i>/Others</i></small> </td>
+            <td  > <span class="border border-light"> Benefit/Gifts </span> </td>
+            <td width="10%" > <span class="border border-light text-right "> 0.00 </span> </td>
+        </tr>
+    </table>
+     <div class="text-center smalll"> (Sila nyatakan <i>/ Please specify </i>) </div>
+     <table> 
+      <tr>
+			<td width="75%" class="text-right"> &nbsp;  JUMLAH <i>/ TOTAL:</i> </td>
+            <td  colspan="2"> <span class="border border-light text-right"> {{doc.total_commission}} </span> </td>
+        </tr>
+     </table> 	
+   
+  </div>
+  <div class=" text-left">
+    <p class="mark">
+      BAHAGIAN D <small> <i>/PART D: </i></small> AKUAN PEMBAYAR / <small> <i>PAYER'S DECLARATION </i></small>
+    </p>
+    <table> 
+      <tr>
+			<td width="10%" > &nbsp;  Saya / </td>
+            <td>  <span class="border border-light"> {{doc.officer_name}}</span></td>
+        </tr>
+     </table> 
+     <table> 
+      <tr>
+			<td width="45%" > No. Pendaftaran/ Kad Pengenalan /Polis / Tentera /Passport * <br>
+    <small><i>/Registration /Identity Card / Police/ Army / Passport No. *  
+    (*Potong yang tidak berk enaan/ Delete whichever is not applicable)</i>  </small></td>
+            <td> <span class="border border-light"> {{doc.officer_passport}}</span></td>
+        </tr>
+     </table>	
+     <table> 
+      <tr>
+			<td width="45%" > Jawatan <small><i>/Designation </i>  </small></td>
+            <td><span class="border border-light"> {{doc.officer_designation}}</span></td>
+        </tr>
+     </table>
+    <p> dengan ini mengakui bahawa maklum at yang diberikan dalam penyata ini adalah benar, betul dan lengkap seperti mana yang dikehendaki di bawah seksyen 83A AKTA Cukai Pendapatan 1967. Saya juga sedia maklum bahawa kegagalan menyedia dan menyerahkan salinan penyata ini kepada ejen, pengedar atau pengagih berkanaan dalam tempoh yang ditetapkan oleh Akta tersebut adalah merupakan suata kesalahan, dan jika disabkitan kesalahan, boleh dikenakan denda tidak kurang daripada dua ratus ringgit (RM2000) dan tidak melebihi dua ribu ringgit (RM2,000) atau hukaman penjara untuk satu tempoh tidak melebihi enam(6) bulan atau kedau-duanya sekali di bawah subseksyen 120 (1)  Akta yang sama 
+    </p>
+    <p> <small> <i> hereby declare that the information given in this statement is true, correct and complete as required under section 83A of the Income Tax Act 1967. I am also aware that failure to prepare and render a copy of this statement to the relevant agent,dealer or distributor within the period stipulated by the Act is an offence and shall, on conviction , be liable to a fine of net less than two hundred ringgit (RM200) and not more than two thousand ringgit (RM2,000) or to imprisonment for a term not exceeding six (6) months or to both under subsection 120 (1) of the same Act. </i> </small> </p>
+  </div>
+   <table> 
+      <tr>
+			<td width="75%"  class=" text-right"> Tarikh /Date </td>
+            <td  class=" text-right"><span class="border border-light"> {{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Date'}) }} </span>  Hari / Bulan / Tahun /  <small> <i> Day  Month Year </i> </small></td>
+        </tr>
+     </table>
+ 
+  <div class=" text-left">
+    <p> ** Nota : Pengakuan ini hendakiah dibuat oleh pemegang jawatan dalam syarikat s eleras dengan peruntukan Akta Cukai Pendapatan 1967 / <br>
+      <small> <i> ** Note : This declaration must be made by a designated officer of the company pursuant to the Income Tax Act 1967 </i> </small> </p>
+  </div>
+</page>
