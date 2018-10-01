@@ -1,0 +1,153 @@
+	{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+		{% if letter_head and not no_letterhead %}
+		<div class="letter-head">{{ letter_head }}</div>
+		{% endif %}
+		{%- if doc.meta.is_submittable and doc.docstatus==2-%}
+		<div class="alert alert-danger text-center">
+			<h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+		{%- endif -%}
+		{%- if doc.meta.is_submittable and doc.docstatus==0-%}
+		<div class="alert alert-danger text-center">
+			<h4 style="margin: 0px;">{{ _("DRAFT") }}</h4></div>
+		{%- endif -%}
+
+		{% if max_pages > 1 %}
+		<p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+		{% endif %}
+	{%- endmacro -%}
+	<small>
+	{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+	<div class="row">
+				<div class="col-xs-9 text-left"><h4><label>{{doc.name}} </label></h4></div>
+				
+				
+				<div class="col-xs-3 text-right">{{ doc.get_formatted("transaction_date") or ''}} </div>
+
+	</div>
+			
+	</small>
+
+						  <br>
+			
+			<div class="row">
+			{% if doc.transaction_type == "Vente" or  doc.transaction_type == "Louer"%}
+				<div class="col-xs-12 text-center" ><h1><label> <u> ATTESTATION DE VERSEMENT </u></label></h1></div>
+		{% else%}
+				<div class="col-xs-12 text-center" ><h1><label>{{_("Cancelled / Not Applicable")}} </label></h1></div>
+		{%endif %}
+
+			</div>
+			
+						  <hr>
+	<br>
+			<div class="row">
+				<div class="col-xs-12 text-center"><label>Le Bureau D'affaires BM IMMO atteste avoir recu le versment d'une somme de:</label></div>
+				
+			</div>
+
+	<br>
+			<div class="row">
+				<div class="col-xs-12 text-center"><label>	#{{doc.get_formatted("already_paid_amount")}} # DA ({{ frappe.utils.money_in_words(doc.already_paid_amount) }} ) de: </label></div>
+				
+			</div>
+
+			<br>
+			<div class="row">
+				<div class="col-xs-12 text-left">
+				<ul>
+				<li>
+				<b>Nom et pre'nom:</b>{{doc.customer}} </li>
+				<li>
+				<b>Ne le:</b>{{doc.birth_date or ''}} &nbsp;{{doc.birth_place or ''}} </li>
+				<li>
+				<b>Permis de conduire N &deg;:</b>{{doc.national_id or ''}}  </li>			
+				</ul>
+				</div>
+			</div>
+		<br>
+			<div class="row">
+			
+				<div class="col-xs-12 text-left"><label><u>Pour la {{doc.transaction_type}} de la {{doc.property_type}}:</u></label>			
+				</div>
+				
+			</div>
+			
+			<br>
+			<div class="row">
+				<div class="col-xs-12 text-left">
+				<ul>
+				<li>
+				<b>L'emplacement:</b>
+				{{doc.property_sector}}  &nbsp;{{doc.property_address}} &nbsp; {{doc.property_city}}  </li>
+				<li><b>Type: </b>F{{doc.property_rooms}} </li>
+				<li><b>Superficie :</b> {{doc.property_area}} m <sup>2</sup>  </li>			
+				{% if doc.property_total_floors == "" or doc.property_total_floors == 0   %}
+				{% else%}
+				<li><b>La {{doc.property_type}} :</b> R  + &nbsp; {{doc.property_total_floors}} </li>			
+				{%endif %}
+				<li><b>Meubles :</b>{{doc.property_furnished or ''}}  </li>			
+				</ul>
+				</div>
+			</div>
+	<br>
+
+		   
+
+			<div class="row">
+			
+				<div class="col-xs-12 text-left"><label><u>Montant restant et dernier delai de versement</u></label>			
+				</div>
+				
+			</div>
+			
+	<br>
+	  <div class="row">
+			
+				<div class="col-xs-12 text-left">
+				<ul>
+				<li>
+				#{{doc.get_formatted("outstanding_amount")}}# DA ( {{ frappe.utils.money_in_words(doc.already_paid_amount) }} ) jusqu'au ??
+				</li>
+				</ul>
+				Payment Due Date  : {{doc.get_formatted("payment_due_date") or ''}}  
+				</div>
+				
+			</div>
+
+	<br>
+	  <div class="row">
+			
+				<div class="col-xs-12 text-left">
+				<mark>
+				<label><u>Note:</u></label>
+				 En cas d`annulation ou depassement du d`elai prescrit de la part du client, 
+				 le montant de versement ne sera pas rembours`e.			
+				</mark>
+				</div>
+				
+			</div>
+			
+	<br>
+		
+			
+
+		 <br>
+		 <br>
+			<div class="row">
+	<div class="row">
+	<div class="col-xs-6 text-left"><label> <u> Signature du client: </u></label></div>
+	<div class="col-xs-6 text-right"><label> <u> Cachet et signature: </u></label></div>
+	</div>  
+			  
+
+	<div>
+		<div id="footer-html" class="visible-pdf">
+			{% if not no_letterhead and footer %}
+			<div class="letter-head-footer">
+				{{ footer }}
+			</div>
+			{% endif %}
+			<p class="text-center small page-number visible-pdf">
+				{{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+			</p>
+		</div>
