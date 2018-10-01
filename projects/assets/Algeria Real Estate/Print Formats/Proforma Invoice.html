@@ -1,0 +1,175 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {%- if doc.meta.is_submittable and doc.docstatus==0-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("DRAFT") }}</h4></div>
+    {%- endif -%}
+
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+<div class="row">
+            <div class="col-xs-9 text-left"><h4><label>{{doc.name}} </label></h4></div>
+            
+            
+            <div class="col-xs-3 text-right">{{ doc.get_formatted("transaction_date") or ''}} </div>
+
+</div>
+        
+</small>
+
+                      <br>
+        
+		<div class="row">
+	    {% if doc.transaction_type == "Vente" or  doc.transaction_type == "Louer"%}
+            <div class="col-xs-12 text-center" ><h1><label> <u> Factura pro forma </u></label></h1></div>
+	{% else%}
+            <div class="col-xs-12 text-center" ><h1><label>{{_("Cancelled / Not Applicable")}} </label></h1></div>
+	{%endif %}
+
+        </div>
+		
+                      <hr>
+<br>
+        <div class="row">
+            <div class="col-xs-12 text-center"><label>Type de Transaction: {{doc.transaction_type}}</label></div>
+            
+        </div>
+
+<br>
+{% if doc.transaction_type == "Louer"%}
+        <div class="row"> 
+            <div class="col-xs-12 text-center"><label>Pe`riode de la location : du {{doc.get_formatted("rent_start_date")}}  au	{{doc.get_formatted("rent_end_date")}} </label></div>
+            
+        </div>
+
+		<br>
+	{%endif %}	
+		<div class="row border">
+            <div class="col-xs-12 text-center"><label>BIEN	</label></div>
+            
+        </div>
+
+		<div class="row border">
+            <div class="col-xs-12 text-left"><b>Type:</b>{{doc.property_type}} &nbsp; F{{doc.property_rooms}} &nbsp; Meubles -{{doc.property_furnished or ''}}  </div> </br>
+			
+            
+        </div>
+
+		<div class="row border">
+		<div class="col-xs-12 text-left"><b>Address:</b> {{doc.property_sector}}  &nbsp;{{doc.property_address}} &nbsp; {{doc.property_city}} </div> 
+			
+            
+        </div>
+
+		
+
+		<br>
+		
+		
+		<div class="row border">
+            <div class="col-xs-12 text-center"><label>LOCATAIRE	</label></div>
+            
+        </div>
+		<div class="row border">
+            <div class="col-xs-12 text-left"><b>Nom:</b>{{doc.customer}}  </div> </br>
+			
+            
+        </div>
+
+		<div class="row border">
+		<div class="col-xs-12 text-left"><b>Adresse:</b> {{doc.client_address}} </div> 
+			
+            
+        </div>
+
+		
+		
+		<br>
+		
+        <div class="row border">
+            <div class="col-xs-6 text-left">
+			OPERATION
+			</div>
+			<div class="col-xs-6 text-center">
+			MONTANT
+			</div>
+        
+        </div>
+    <br>
+	
+	<div class="row">
+            <div class="col-xs-6 text-left">
+			Transaction Type <br>
+			Frais d`agence <br>
+			Frais de notaire <br>
+			Cautionnement 
+			</div>
+			<div class="col-xs-6 text-right">
+			{{doc.get_formatted("total_rent_amount")}} or {{doc.get_formatted("sale_price")}}   <br>
+			{{doc.get_formatted("commission_from_client")}} <br>
+			{{doc.get_formatted("notary_fees")}} <br>
+			{{doc.get_formatted("deposit")}} 			
+			</div>
+        
+        </div>
+    <br>
+	
+	<div class="row border">
+            <div class="col-xs-6 text-left">
+			TOTAL
+			</div>
+			<div class="col-xs-6 text-right">
+			{{doc.get_formatted("total_amount")}}
+			</div>
+        
+        </div>
+
+        <div class="row">
+		
+            <div class="col-xs-12 text-left"><label><u>Arreter la presente a la  somme de : </u></label>			
+			</div>
+			
+        </div>
+		
+		<br>
+		
+		<div class="row">
+		
+            <div class="col-xs-12 text-left"><label>{{ frappe.utils.money_in_words(doc.total_amount) }} </label>			
+			</div>
+			
+        </div>
+		
+        
+<br>
+  
+     <br>
+     <br>
+        <div class="row">
+<div class="row">
+<div class="col-xs-6 text-left"></div>
+<div class="col-xs-6 text-right"><label> <u> Cachet et signature: </u></label></div>
+</div>  
+          
+
+<div>
+    <div id="footer-html" class="visible-pdf">
+        {% if not no_letterhead and footer %}
+        <div class="letter-head-footer">
+            {{ footer }}
+        </div>
+        {% endif %}
+        <p class="text-center small page-number visible-pdf">
+            {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }}
+        </p>
+    </div>
