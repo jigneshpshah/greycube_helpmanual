@@ -1,0 +1,105 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+
+<div class="row">
+{{ add_header(0,1,doc,letter_head, no_letterhead) }} </br>
+</div>
+<div class="row">
+{% set u = frappe.get_doc("User", frappe.user) %}
+	<div class="col-xs-3"> {{ _("Customer Name")}} </div>
+	<div class="col-xs-3">{{ doc.customer_name }}</div>	
+	<div class="col-xs-3">{{ _("Sales Person")}}</div>
+	<div class="col-xs-3">{{ u.first_name or ''}}&nbsp;{{ u.last_name or ''}}</div>
+	
+</div>
+<div class="row">
+	<div class="col-xs-3 ">{{ _("Customer Mobile No")}}</div>
+	<div class="col-xs-3 ">{{ doc.customer_mobile_no or ''}}</div>
+	<div class="col-xs-3 ">{{ _("Branch")}}</div>
+	<div class="col-xs-3 ">{{ doc.branch or ''}}</div>
+	
+</div>
+<div class="row">
+	<div class="col-xs-3 ">{{ _("Customer Optics")}}</div>
+	<div class="col-xs-3 ">{{ doc.customer_optics or '' }}</div>	
+	<div class="col-xs-3 ">{{ _("Tax ID")}}</div>
+	<div class="col-xs-3 ">{{ doc.company_tax_id or '' }}</div>
+	
+</div>
+<div class="row">
+	<div class="col-xs-3 ">{{ _("Date")}}</div>
+	<div class="col-xs-3 ">{{ doc.get_formatted("posting_date") }}</div>
+	<div class="col-xs-3 ">{{ _("Outstanding Amount")}}</div>
+	<div class="col-xs-3 ">{{ doc.get_formatted("outstanding_amount")}}</div>
+</div>
+
+<div class="row">
+<div class="col-xs-12">
+{{doc.optics_detail}}
+</div>
+<div class="row">
+<div class="col-xs-12">
+
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<th>{{ _("Item Code")}}</th>
+			<th>{{ _("Item Name")}}</th>
+			<th class="">{{ _("Quantity")}}</th>
+			<th class="">{{ _("Rate")}}</th>
+			<th class="">{{ _("Amount")}}</th>
+
+			
+			
+			
+		</tr>
+		{%- for row in doc.items -%}
+		<tr>
+			<td style="width: 20%; text-align: right;">
+				<div style="border: 0px;">{{ row.item_code }}</div></td>
+			<td style="width: 30%; text-align: right;">
+				{{ row.item_name }}
+			</td>
+			<td style="width: 10%; text-align: right;">{{ row.qty }} {{ row.uom or row.stock_uom }}</td>
+			<td style="width: 20%; text-align: right;">{{
+				row.get_formatted("rate", doc) }}</td>			
+			<td style="width: 20%; text-align: right;">{{
+				row.get_formatted("amount", doc) }}</td>
+			
+			
+		</tr>
+		{%- endfor -%}
+	</tbody>
+</table>
+</div>
+
+<div class="row"> 
+	<div class="col-xs-3 ">{{ _("Grand Total")}}</div>
+	<div class="col-xs-9 ">{{ doc.get_formatted("grand_total") }}</div>
+	
+</div>
+<div class="row">
+	<div class="col-xs-3 ">{{ _("Discount")}}</div>
+	<div class="col-xs-9 ">{{ doc.get_formatted("base_discount_amount") }}</div>
+	
+</div>
+<div class="row">
+	<div class="col-xs-3 ">{{ _("Total Taxes and Charges")}}</div>
+	<div class="col-xs-9 ">{{ doc.get_formatted("total_taxes_and_charges") }}</div>
+	
+</div>
+<div class="row"> 
+	<div class="col-xs-3 ">{{ _("Total Amount")}}</div>
+	<div class="col-xs-9 ">{{ doc.get_formatted("base_net_total") }}</div>
+	
+</div>
