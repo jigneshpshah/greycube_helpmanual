@@ -15,6 +15,13 @@
 {{ add_header(0,1,doc,letter_head, no_letterhead) }} </br>
 </div>
 <div class="row">
+	<div class="col-xs-3"> {{ _("Sales Invoice" )}}</div>
+	<div class="col-xs-3">{{ doc.name }}</div>	
+	<div class="col-xs-6"></div>
+
+
+</div>
+<div class="row">
 {% set u = frappe.get_doc("User", frappe.user) %}
 	<div class="col-xs-3"> {{ _("Customer Name")}} </div>
 	<div class="col-xs-3">{{ doc.customer_name }}</div>	
@@ -49,15 +56,14 @@
 </div>
 <div class="row">
 <div class="col-xs-12">
-
 <table class="table table-bordered">
 	<tbody>
 		<tr>
 			<th>{{ _("Item Code")}}</th>
 			<th>{{ _("Item Name")}}</th>
-			<th class="">{{ _("Quantity")}}</th>
-			<th class="">{{ _("Rate")}}</th>
-			<th class="">{{ _("Amount")}}</th>
+			<th >{{ _("Quantity")}}</th>
+			<th >{{ _("Rate")}}</th>
+			<th>{{ _("Amount")}}</th>
 
 			
 			
@@ -79,27 +85,28 @@
 			
 		</tr>
 		{%- endfor -%}
-	</tbody>
-</table>
-</div>
+	                </tbody>
+                 </table>
+</div>                   
+				   </div>
 
-<div class="row"> 
-	<div class="col-xs-3 ">{{ _("Grand Total")}}</div>
-	<div class="col-xs-9 ">{{ doc.get_formatted("grand_total") }}</div>
+             <div class="row"> 
+	          <div class="col-xs-3">{{ _("Grand Total")}}</div>
+	           <div class="col-xs-9 ">{{ doc.get_formatted("total") }}</div>
 	
-</div>
-<div class="row">
-	<div class="col-xs-3 ">{{ _("Discount")}}</div>
-	<div class="col-xs-9 ">{{ doc.get_formatted("base_discount_amount") }}</div>
+                </div>
+            <div class="row">
+	          <div class="col-xs-3">{{ _("Discount")}}</div>
+	           <div class="col-xs-9 ">{{ doc.get_formatted("base_discount_amount") }}</div>
 	
-</div>
-<div class="row">
-	<div class="col-xs-3 ">{{ _("Total Taxes and Charges")}}</div>
-	<div class="col-xs-9 ">{{ doc.get_formatted("total_taxes_and_charges") }}</div>
+       </div>
+       <div class="row">
+	    <div class="col-xs-3">{{ _("Total Taxes and Charges")}}</div>
+	     <div class="col-xs-9 ">{{ doc.get_formatted("total_taxes_and_charges") }}</div>
 	
-</div>
-<div class="row"> 
-	<div class="col-xs-3 ">{{ _("Total Amount")}}</div>
-	<div class="col-xs-9 ">{{ doc.get_formatted("base_net_total") }}</div>
+       </div>
+       <div class="row"> 
+	<div class="col-xs-3">{{ _("Total Amount")}}</div>
+	   <div class="col-xs-9 ">{{ doc.get_formatted("base_net_total") }}</div>
 	
-</div>
+    </div>
