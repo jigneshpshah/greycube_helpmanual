@@ -1,0 +1,189 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+
+<div class="row">
+{{ add_header(0,1,doc,letter_head, no_letterhead) }} </br>
+</div>
+<div class="row">
+	<div class="col-xs-3">فاتورة رقم:</div>
+	<div class="col-xs-6 text-center">{{ doc.name }}</div>	
+	<div class="col-xs-3"> Invoice No.</div>
+
+
+</div>
+<div class="row">
+	<div class="col-xs-2">تاريخ:</div>
+	<div class="col-xs-4">{{ doc.get_formatted("posting_date") }}</div>
+	<div class="col-xs-4 text-left">{{ doc.get_formatted("posting_date") }}</div>
+	<div class="col-xs-2">Date</div>
+</div>
+<div class="row">
+	<div class="col-xs-3">إلى:</div>
+	<div class="col-xs-6"></div>	
+	<div class="col-xs-3 text-center"> To </div>
+	
+</div>
+<div class="row">
+
+	<div class="col-xs-2">/الساده:</div>
+	<div class="col-xs-4">{{ doc.customer_name_in_arabic }}</div>
+	<div class="col-xs-4 text-left">{{ doc.customer_name}}</div>
+	<div class="col-xs-2">:M/S</div>	
+</div>
+
+<div class="row">
+	<div class="col-xs-3"> -المملكة العربية السعودية</div>
+	<div class="col-xs-6"></div>	
+	<div class="col-xs-3 text-center">,Saudi Arabia</div>
+	
+</div>
+
+<div class="row">
+	<div class="col-xs-2">رقم ضريبة القيمة المضافه:</div>
+	<div class="col-xs-4">{{ doc.company_trn or ''}}</div>
+	<div class="col-xs-4 text-left">{{ doc.company_trn or ''}}</div>
+	<div class="col-xs-2">:VAT NO</div>	
+</div>
+<div class="row">
+	<div class="col-xs-3">من:</div>
+	<div class="col-xs-6"></div>	
+	<div class="col-xs-3 text-center">From</div>
+
+</div>
+<div class="row">
+	<div class="col-xs-5">{{ doc.company }}</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-5 text-left">{{ doc.company_name_in_english or '' }}</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-3">الخبر - المملكة العربية السعودية</div>
+	<div class="col-xs-6"></div>
+	<div class="col-xs-3">Alkhobar, Saudi Arabia </div>
+</div>
+
+<div class="row">
+	<div class="col-xs-2">رقم ضريبة القيمة المضافه:</div>
+	<div class="col-xs-4">{{ doc.tax_id or ''}}</div>
+	<div class="col-xs-4 text-left">{{ doc.tax_id or ''}}</div>
+	<div class="col-xs-2">:VAT NO</div>	
+</div>
+
+<div class="row">
+	<div class="col-xs-3">الموضوع:</div>
+	<div class="col-xs-6"></div>
+	<div class="col-xs-3 text-center">:Sub</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-2">رقم امر الشراء:</div>
+	<div class="col-xs-4">{{ doc.po_no or ''}}</div>
+	<div class="col-xs-4 text-left">{{ doc.po_no or ''}}</div>
+	<div class="col-xs-2">:PO Number</div>	
+</div>
+
+
+<div class="row">
+<div class="col-xs-12">
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<th style="text-align: center;">المبلغ <br> Amount</th>
+			<th style="text-align: center;">سعر الوحدة <br> Unit Price</th>
+			<th style="text-align: center;">الكمية<br> Quantity</th>
+			<th style="text-align: center;">البيان<br>Description</th>
+			<th style="text-align: center;">م<br>No</th>			
+			
+			
+		</tr>
+		{%- for row in doc.items -%}
+		<tr>
+			<td style="width: 20%;">{{
+				row.get_formatted("amount", doc) }}</td>
+			<td style="width: 20%;">{{
+				row.get_formatted("rate", doc) }}</td>			
+			<td style="width: 10%; text-align: center;">{{ row.qty }} </td>
+			<td style="width: 40%; text-align: center;">
+				{{ row.description }}
+			</td>
+
+			<td style="width: 10%; text-align: center;">
+				<div style="border: 0px;">{{ row.idx }}</div></td>
+
+			
+		</tr>
+		{%- endfor -%}
+	                </tbody>
+                 </table>
+</div>                   
+				   </div>
+
+             <div class="row"> 
+<div class="col-xs-12">
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+	<td style="width: 20%;">	
+{{ doc.get_formatted("total") }}
+	</td>	
+	<td style="width: 80%; text-align: center;">	
+الإجمالي <br>Total
+	</td>	
+		</tr>
+	    
+<tr>
+	<td>	
+{{ doc.get_formatted("total_taxes_and_charges") }}
+	</td>	
+	<td style="text-align: center;">	
+%ضريبة القيمة المضافة5 <br> VAT 5%
+	</td>	
+		</tr>
+
+<tr>
+	<td>	
+{{ doc.get_formatted("grand_total") }}
+	</td>	
+	<td style="text-align: center;">	
+الإجمالى بعد ضريبة القيمة المضافة <br> Total
+	</td>	
+		</tr>
+     </tbody>
+</table>
+</div>	
+                </div>
+           
+
+      <br>
+
+       <div class="row">
+	<div class="col-xs-3">تفضلوا بقبول فائق الاحترام</div>	
+	<div class="col-xs-6"></div>
+    <div class="col-xs-3">yours sincerely</div>
+       </div>
+      <br>
+       <div class="row">
+	<div class="col-xs-3">إعداد: دفع الله عبدالله</div>
+	<div class="col-xs-6"></div>
+	    <div class="col-xs-3">prepared by: Dafaallah Abdallah</div>
+       </div>
+      <br>
+      <br>
+       <div class="row">
+	<div class="col-xs-3">:توقيع العميل</div>
+	<div class="col-xs-6"></div>
+
+	    <div class="col-xs-3">:Client Signature</div>
+       </div>
+
+
