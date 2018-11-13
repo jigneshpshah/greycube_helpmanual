@@ -50,8 +50,8 @@
 
 <div class="row">
 	<div class="col-xs-2">رقم ضريبة القيمة المضافه:</div>
-	<div class="col-xs-4">{{ doc.company_trn or ''}}</div>
-	<div class="col-xs-4 text-left">{{ doc.company_trn or ''}}</div>
+	<div class="col-xs-4">{{ doc.tax_id or ''}}</div>
+	<div class="col-xs-4 text-left">{{ doc.tax_id or ''}}</div>
 	<div class="col-xs-2">:VAT NO</div>	
 </div>
 <div class="row">
@@ -74,8 +74,9 @@
 
 <div class="row">
 	<div class="col-xs-2">رقم ضريبة القيمة المضافه:</div>
-	<div class="col-xs-4">{{ doc.tax_id or ''}}</div>
-	<div class="col-xs-4 text-left">{{ doc.tax_id or ''}}</div>
+	<div class="col-xs-4">{{ doc.company_trn or ''}}</div>
+	<div class="col-xs-4 text-left">{{ doc.company_trn or ''}}</div>
+
 	<div class="col-xs-2">:VAT NO</div>	
 </div>
 
