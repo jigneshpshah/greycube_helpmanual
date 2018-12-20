@@ -1,0 +1,44 @@
+Treatment Analytics
+===========================================
+select 
+IT.name as 'Treatment:Data:200',
+CT.clinic_name AS 'Clinic:Data:150',
+CT.medical_assistant_name as 'MedicalAssistant:Data:200',
+count(*) AS 'Count:Int:100'
+FROM `tabClient Treatment` AS CT 
+INNER JOIN `tabItem` AS IT ON
+CT.treatment = IT.name
+where CT.date_time >= %(from_date)s 
+and CT.date_time <= %(to_date)s  
+group by
+IT.name,
+CT.clinic_name,
+CT.medical_assistant_name
+order by IT.name,
+CT.clinic_name,
+CT.medical_assistant_name
+
+
+========================
+Appointmemt Analytics
+==============================
+select 
+PA.clinic_name AS 'Clinic:Data:150',
+PA.doctor_name AS 'Doctor:Data:150',
+PA.status as 'Status:Data:100',
+count(*) AS 'Count:Int:100'
+FROM `tabPatient Appointment` AS PA
+PA.appointment_date >= %(from_date)s 
+and PA.appointment_date <= %(to_date)s  
+group by
+PA.clinic_name,
+PA.doctor_name,
+PA.status
+order by 
+PA.clinic_name,
+PA.doctor_name,
+PA.status
+
+
+
+
