@@ -1,6 +1,66 @@
-Sales Order
+=========================
+	Delivery Note
+=========================
+		frappe.ui.form.on("Delivery Note", "onload",
+    function(frm) {
 
-frappe.ui.form.on("Sales Order", "onload",
+	$.each(frm.doc.items || [], function(i, v) {
+if(v.against_sales_order && !v.cost_center)					
+	frappe.model.set_value(v.doctype, v.name,"cost_center",locals["Sales Order"][v.against_sales_order].cost_center)
+										
+				})
+				frm.refresh_field('items');
+
+
+frappe.call({
+            "method": "frappe.client.get",
+            args: {
+                doctype: "User",
+		filters: {"name": frappe.user.name} ,//user is current user here
+		fieldname :["delivery_note_series"]  
+            },
+            callback: function (data) {
+               frm.set_value("naming_series",data.message.delivery_note_series);
+		
+            }
+        })
+    });
+	
+	
+=====================================
+	Sales Invoice
+	========================
+		frappe.ui.form.on("Sales Invoice", "onload",
+    function(frm) {
+
+	$.each(frm.doc.items || [], function(i, v) {
+if(v.sales_order && !v.cost_center)					
+	frappe.model.set_value(v.doctype, v.name,"cost_center",locals["Sales Order"][v.sales_order].cost_center)
+										
+				})
+				frm.refresh_field('items');
+
+
+frappe.call({
+            "method": "frappe.client.get",
+            args: {
+                doctype: "User",
+		filters: {"name": frappe.user.name} ,//user is current user here
+		fieldname :["sales_invoice_series"]  
+            },
+            callback: function (data) {
+               frm.set_value("naming_series",data.message.sales_invoice_series);
+		
+            }
+        })
+    });
+	
+	
+==========================================
+	Sales Order
+	=============================
+		
+		frappe.ui.form.on("Sales Order", "onload",
     function(frm) {
         frappe.call({
             "method": "frappe.client.get",
@@ -37,31 +97,12 @@ frappe.ui.form.on('Sales Order Item', {
 		})
 	}
   });
-  
-  
-  ============================================
-  Sales Invoice
-  ======================================
-  frappe.ui.form.on("Sales Invoice", "onload",
-    function(frm) {
-        frappe.call({
-            "method": "frappe.client.get",
-            args: {
-                doctype: "User",
-		filters: {"name": frappe.user.name} ,//user is current user here
-		fieldname :["sales_invoice_series"]  
-            },
-            callback: function (data) {
-               frm.set_value("naming_series",data.message.sales_invoice_series);
-		
-            }
-        })
-    });
-    
-    ====================================================
-    Quotation
-    ====================================================
-    frappe.ui.form.on("Quotation", "onload",
+
+===================================
+	Quotation
+	===================
+	
+	frappe.ui.form.on("Quotation", "onload",
     function(frm) {
         frappe.call({
             "method": "frappe.client.get",
@@ -76,12 +117,14 @@ frappe.ui.form.on('Sales Order Item', {
             }
         })
     });
-    
-    
-    ======================================================
-    Payment Entry
-    ======================================================
-    frappe.ui.form.on("Payment Entry", "onload",
+
+========================================
+	
+	Payment Entry
+	
+	================================
+		
+		frappe.ui.form.on("Payment Entry", "onload",
     function(frm) {
         frappe.call({
             "method": "frappe.client.get",
@@ -96,32 +139,11 @@ frappe.ui.form.on('Sales Order Item', {
             }
         })
     });
-    ======================================================
-    Journal Entry
-    ======================================================
-    frappe.ui.form.on("Journal Entry", "onload",
-    function(frm) {
-        frappe.call({
-            "method": "frappe.client.get",
-            args: {
-                doctype: "User",
-		filters: {"name": frappe.user.name} ,//user is current user here
-		fieldname :["journal_entry_series"]  
-            },
-            callback: function (data) {
-               frm.set_value("naming_series",data.message.journal_entry_series);
-		
-            }
-        })
-    });
-    
-    
-    ==============================================================
-    
-    Stock Entry
-    =====================================================
-    
-    frappe.ui.form.on("Stock Entry", "onload",
+
+===========================================
+	Stock Entry
+	====================================
+		frappe.ui.form.on("Stock Entry", "onload",
     function(frm) {
         frappe.call({
             "method": "frappe.client.get",
@@ -136,25 +158,22 @@ frappe.ui.form.on('Sales Order Item', {
             }
         })
     });
-    
-    ===============================================================
-    
-    Delivery Note Series
-    ================================================================
-    
-    frappe.ui.form.on("Delivery Note", "onload",
+
+====================================
+	Journal Entry
+======================================
+	frappe.ui.form.on("Journal Entry", "onload",
     function(frm) {
         frappe.call({
             "method": "frappe.client.get",
             args: {
                 doctype: "User",
 		filters: {"name": frappe.user.name} ,//user is current user here
-		fieldname :["delivery_note_series"]  
+		fieldname :["journal_entry_series"]  
             },
             callback: function (data) {
-               frm.set_value("naming_series",data.message.delivery_note_series);
+               frm.set_value("naming_series",data.message.journal_entry_series);
 		
             }
         })
     });
-    
