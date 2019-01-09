@@ -30,7 +30,7 @@ frappe.call({
 =====================================
 	Sales Invoice
 	========================
-		frappe.ui.form.on("Sales Invoice", "onload",
+frappe.ui.form.on("Sales Invoice", "onload",
     function(frm) {
 
 	$.each(frm.doc.items || [], function(i, v) {
@@ -46,14 +46,24 @@ frappe.call({
             args: {
                 doctype: "User",
 		filters: {"name": frappe.user.name} ,//user is current user here
-		fieldname :["sales_invoice_series"]  
+		fieldname :["sales_invoice_series","sales_return_series"]  
             },
             callback: function (data) {
-               frm.set_value("naming_series",data.message.sales_invoice_series);
+	
+              if(typeof frm.doc.is_return!== 'undefined')
+		{
+		
+		 frm.set_value("naming_series",data.message.sales_return_series);// for sales return
+		}
+		else
+		{	
+		 frm.set_value("naming_series",data.message.sales_invoice_series); //  for sales invoice
+		}	
 		
             }
         })
     });
+	
 	
 	
 ==========================================
