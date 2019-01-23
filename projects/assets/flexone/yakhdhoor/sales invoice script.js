@@ -1,21 +1,60 @@
 //default naming series
-if(typeof cur_frm.doc.is_return!== 'undefined')
+frappe.ui.form.on("Sales Invoice", "onload",
+    function(frm) {
+if(cur_frm.doc.docstatus == 0)
 {
-	if(frm.doc.is_return)
-		{
-		cur_frm.add_fetch("company","sales_return_series","naming_series"); //sales return series
-		}
-	else
-	{
-	cur_frm.add_fetch("company","sales_invoice_series","naming_series"); // sales invoice series 
-	}
+	frappe.call({
+            "method": "frappe.client.get",
+            args: {
+                doctype: "Company",
+				filters: {"name": cur_frm.doc.company} ,//company
+				fieldname :["sales_invoice_series","sales_return_series",]  
+            },
+            callback: function (data) 
+			{
+				if(typeof cur_frm.doc.is_return!== 'undefined')
+				{
+						if(cur_frm.doc.is_return)
+						{
+							//return series
+							console.log("on load is  return");
+										frm.set_value("naming_series",data.message.sales_return_series);
+						     //check if is return from pos then change pos profile here
+
+						}
+						else
+						{
+							// new invoice series
+							console.log("on load is  new");
+							frm.set_value("naming_series",data.message.sales_invoice_series);
+						}
+				}
+				else
+				{
+							// new invoice series
+							console.log("on load is  new and is return is undefined " );
+							frm.set_value("naming_series",data.message.sales_invoice_series);
+				}
+		      
+			}
+
+		});
 }
-else
+});
+
+
+//naming series on company change
+if(!cur_frm.doc.is_return)
 {
-	cur_frm.add_fetch("company","sales_invoice_series","naming_series"); // sales invoice series 
+console.log("is not return");
+cur_frm.add_fetch("company","sales_invoice_series","naming_series"); // sales invoice series 		
+}
+if(cur_frm.doc.is_return)
+{
+console.log("is simple return");
+cur_frm.add_fetch("company","sales_return_series","naming_series"); // sales invoice series 		
 }
 		
-
 //for yakhdhoor app
 frappe.ui.form.on('Sales Invoice', {
     customer: function (frm) {
