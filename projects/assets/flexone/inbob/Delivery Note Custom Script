@@ -1,19 +1,28 @@
-frappe.ui.form.on("Delivery Note",{
-	validate: function(frm) {
-		frappe.call({
-			method: "frappe.client.get",
-			args: {
-				doctype: "User",
-				filters: {"name": frappe.user.name},    //user is current user here
-				fieldname :["cost_center"]   
-			},
-			callback: function(r) {
-				$.each(frm.doc.items || [], function(i, v) {
-					frappe.model.set_value(v.doctype, v.name,"cost_center",r.message.cost_center)
-										
+frappe.ui.form.on("Delivery Note", "onload",
+    function(frm) {
+	if(frm.doc.docstatus ==0)
+	{
+	$.each(frm.doc.items || [], function(i, v) {
+	if(v.against_sales_order && !v.cost_center)					
+			frappe.model.set_value(v.doctype, v.name,"cost_center",locals["Sales Order"][v.against_sales_order].cost_center)
 				})
 				frm.refresh_field('items');
-			}
-		})
+
 	}
-})
+frappe.call({
+            "method": "frappe.client.get",
+            args: {
+                doctype: "User",
+		filters: {"name": frappe.user.name} ,//user is current user here
+		fieldname :["delivery_note_series"]  
+            },
+            callback: function (data) {
+			if(frm.doc.docstatus ==0)
+			{
+			frm.set_value("naming_series",data.message.delivery_note_series);
+			}
+            }
+        })
+    });
+	
+	
