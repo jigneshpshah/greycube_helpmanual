@@ -110,7 +110,7 @@
 </div> 
 <div class="row">
 
-    <div class="col-xs-12 text-center"><label>PAYMENT TERMS : {{ doc.payment_schedule[0].description or '' }} </label></div>
+    <div class="col-xs-12 text-center"><label>PAYMENT TERMS : {{ doc.payment_schedule[0].description if doc.payment_schedule|length > 0 else ' ' }} </label></div>
 
 </div> 
 
