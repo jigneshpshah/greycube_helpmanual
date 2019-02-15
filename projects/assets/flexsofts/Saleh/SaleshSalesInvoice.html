@@ -1,0 +1,127 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead) -%}
+    {% if letter_head and not no_letterhead %}
+    <div class="letter-head">{{ letter_head }}</div>
+    {% endif %}
+    {%- if doc.meta.is_submittable and doc.docstatus==0-%}
+    <div class="alert alert-info text-center">
+        <h4 style="margin: 0px;">{{ _("PROFORMA") }}</h4></div>
+    {%- endif -%}
+    {%- if doc.meta.is_submittable and doc.docstatus==2-%}
+    <div class="alert alert-danger text-center">
+        <h4 style="margin: 0px;">{{ _("CANCELLED") }}</h4></div>
+    {%- endif -%}
+    {% if max_pages > 1 %}
+    <p class="text-right">{{ _("Page #{0} of {1}").format(page_num, max_pages) }}</p>
+    {% endif %}
+{%- endmacro -%}
+<small>
+{{ add_header(0,1,doc,letter_head, no_letterhead) }}
+<table class="table table-condensed table-hover table-bordered" style="margin-bottom:15px;">
+	<tr>
+        <th>{{_("Invoice No")}} </th>
+        <td>{{ doc.name or ''}} </td>
+        <th>{{_("Customer No")}}</th>
+        <td>{{ doc.customer or ''}}</td>
+    </tr>
+    <tr>
+        <th>{{_("Date")}} </th>
+        <td>{{ doc.get_formatted("posting_date") or ''}} </td>
+        <th>{{_("Customer Name")}}</th>
+        <td>{{ doc.customer_name or ''}}</td>
+    </tr>
+     <tr>
+        <th>{{_("Branch")}} </th>
+        <td>{{ doc.branch or ''}} </td>
+        <th>{{_("Address")}}</th>
+        <td>{{ doc.address_display or ''}}</td>
+    </tr>
+     <tr>
+        <th>{{_("Sales Man")}} </th>
+        <td>{{ doc.sales_team[0]["sales_person"] if doc.sales_team|length > 0 else ' '}} </td>
+        <th>{{_("Tax Number")}}</th>
+        <td>{{ doc.tax_id or ''}}</td>
+    </tr>
+</table>
+<table class="table table-condensed table-hover table-bordered">
+  <tr>
+    <th>{{_("Item")}} </th>
+    <th>{{_("Description")}} </th>
+    <th>{{_("Serial No")}}</th>
+    <th>{{_("Plate No")}}</th>
+    <th>{{_("Amount")}}</th>
+    <th>{{_("Tax %")}}</th>
+    <th>{{_("Tax Amount")}}</th>
+    <th>{{_("Total Amount")}}</th>
+  </tr>
+  {%- for row in doc.items -%}
+  <tr>
+    <td style="width: 20%;"> {{ row.item_group or '' }} </td>
+    <td style="width: 37%;"> {{ row.description or '' }} </td>
+    <td style="width: 10%; text-align: center;">{{ row.serial_no or ''}}</td>
+    <td style="width: 10%; text-align: center;"></td>
+    <td style="width: 10%; text-align: right;">{{row.base_net_amount }}</td>
+    <td style="width: 10%; text-align: right;">{{ row.tax_rate}}</td>
+    <td style="width: 10%; text-align: right;">{{ row.tax_amount}}</td>
+    <td style="width: 10%; text-align: right;">{{row.total_amount}}</td>
+  </tr>
+  {%- endfor -%}
+    </tbody>
+  
+</table>
+<div class="row">
+  <div class="col-xs-6 text-right"></div>
+  <div class="col-xs-3 text-right">
+    <label>{{_("Total Before Tax")}}</label>
+  </div>
+  <div class="col-xs-3 text-left">
+    <label>{{ doc.get_formatted("net_total")}} </label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6 text-right"></div>
+  <div class="col-xs-3 text-right">
+    <label>{{_("Discount Amount")}}</label>
+  </div>
+  <div class="col-xs-3 text-left">
+    <label>{{ doc.get_formatted("base_discount_amount")}} </label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6 text-right"></div>
+  <div class="col-xs-3 text-right">
+    <label>{{_("Tax Amount")}}</label>
+  </div>
+  <div class="col-xs-3 text-left">
+    <label>{{doc.get_formatted("base_total_taxes_and_charges")}} </label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6 text-right"></div>
+  <div class="col-xs-3 text-right">
+    <label>{{_("Net Total")}}</label>
+  </div>
+  <div class="col-xs-3 text-left">
+    <label>{{doc.get_formatted("grand_total")}} </label>
+  </div>
+</div>
+</br>
+<div class="row">
+  <div class="col-xs-12 text-left">
+    <label>{{ doc.terms or '' }} </label>
+  </div>
+</div>
+</br>
+<div class="row">
+  <div class="col-xs-6 text-center">
+    <label>{{_("Prepared By")}}</label>
+  </div>
+  <div class="col-xs-6 text-center">
+    <label>{{_("Approved By")}}</label>
+  </div>
+</div>
+<div>
+<div id="footer-html" class="visible-pdf"> {% if not no_letterhead and footer %}
+  <div class="letter-head-footer"> {{ footer }} </div>
+  {% endif %}
+  <p class="text-center small page-number visible-pdf"> {{ _("Page {0} of {1}").format('<span class="page"></span>', '<span class="topage"></span>') }} </p>
+</div>
