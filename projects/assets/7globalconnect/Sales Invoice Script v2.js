@@ -7,9 +7,6 @@ frappe.ui.form.on('Sales Invoice Item', {
 
 
 frappe.ui.form.on("Sales Invoice", {
-    commission_type: function (frm, cdt, cdn) {
-        frm.trigger('set_items_commission_rate');
-    },
     validate: function (frm, cdt, cdn) {
         frm.trigger('set_items_commission_rate');
     },
