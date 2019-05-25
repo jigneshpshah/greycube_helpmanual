@@ -1,10 +1,8 @@
 frappe.ui.form.on('Sales Invoice', {
     customer: function (frm) {
-        console.log(frm.doc.customer)
         if (frm.doc.customer != null) {
             frm.set_value('customer_optics', '')
             cur_frm.fields_dict['customer_optics'].get_query = function (doc, cdt, cdn) {
-                console.log(doc.customer)
                 return {
                     filters: {
                         'customer': doc.customer,
@@ -29,7 +27,6 @@ frappe.ui.form.on('Sales Invoice', {
                         cur_frm.set_value('optics_detail', html)
                     }
                     const optics_data = r.message[0];
-                    console.log(optics_data)
                     if (optics_data) {
                         if (optics_data.optic_type == 'Glasses') {
                             html = `
@@ -98,6 +95,7 @@ frappe.ui.form.on('Sales Invoice', {
         }
     },
     validate: function (doc, dt, dn) {
+var i=0;
         for (i = 0; i < cur_frm.doc.items.length; i++) {
             if (Object.keys(JSON.parse(cur_frm.doc.items[i].item_tax_rate)).length != 0) {
                 var itemtaxrate = Object.values(JSON.parse(cur_frm.doc.items[i].item_tax_rate))[0];
