@@ -31,12 +31,12 @@
     <tr>
       <th style="width:15%"><label>{{_("Sold To") }}</label></th>
       <td style="width:35%">
-	{{ doc.customer_name }}</br>
+	{{ doc.customer_name }}<br>
 	{% if doc.address_display %}{{ doc.address_display }}{% endif %}
       </td>
       <th style="width:15%"><label>{{_("Ship To") }}</label></th>
       <td style="width:35%">
-	{% if doc.shipping_address_name %}{{ doc.shipping_address_name }}{% endif %}</br>
+	{% if doc.shipping_address_name %}{{ doc.shipping_address_name }}{% endif %}<br>
 	{% if doc.shipping_address %}{{ doc.shipping_address }}{% endif %}
       </td>
     </tr>
@@ -90,6 +90,15 @@
 
 <br>
 <div class="row">
+    <div style="width: 70%" class="col-xs-5 text-right">
+	<label>{{ _("Total Quantity") }}</label>
+	</div>
+	<div style="width: 30%" class="col-xs-7 text-right value">
+	{{ doc.get_formatted("total_qty") }}
+	</div>
+</div>
+<div class="row">
+  
 	<div style="width: 70%" class="col-xs-5 text-right">
 	<label>{{ _("Subtotal") }}</label>
 	</div>
@@ -109,6 +118,17 @@
 	</div>
 </div>
 {%- endfor -%}
+{% if doc.base_discount_amount %}
+<div class="row">
+	<div style="width: 70%" class="col-xs-5 text-right">
+	<label>{{ _("Discount (-)") }}</label>
+	</div>
+	
+	<div style="width: 30%" class="col-xs-7 text-right value">
+	{{ doc.get_formatted("base_discount_amount") }}
+	</div>
+</div>
+{% endif %}
 <div class="row">
 	<div style="width: 70%" class="col-xs-5 text-right">
 	<label>{{ _("Total") }}</label>
@@ -122,6 +142,6 @@
 
 <script>
 $(document).ready(function ($) {
-      $('.print-format-gutter .print-format').append('<div id="watermark"><p>THIS IS NOT A SALES INVOICE</p><p>THIS IS NOT A SALES INVOICE</p></div>');
+      $('.print-format').append('<div id="watermark"><p>THIS IS NOT A SALES INVOICE</p><p>THIS IS NOT A SALES INVOICE</p></div>');
 });
 </script>
