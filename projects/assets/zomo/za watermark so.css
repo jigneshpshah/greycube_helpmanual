@@ -1,0 +1,33 @@
+.print-format .page-break, .section-break, #footer-html, #header-html, .print-format > *{
+	z-index: 1;
+}
+#watermark {
+	position: fixed;
+    top: 25%;
+	left: 0;
+	
+    z-index: 1 !important;
+	
+	width: 100%;
+	text-align: center;
+}
+#watermark p{
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg); 
+	transform-origin: 50% 50%;
+	opacity: 0.2;
+    font-size: 50px;
+    color: #000;
+    
+}
+#watermark p:first-child{
+    margin-bottom: 35%;
+}
+.print-format{
+   position: relative;
+}
+h3.print-heading{
+   padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
