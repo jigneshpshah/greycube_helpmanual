@@ -1,0 +1,546 @@
+@import url("frappe-web-b4.css");
+@import url("erpnext-web.css");
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,400italic,700&subset=latin,latin-ext);
+body {
+	background-color: #ffffff;
+	background-image: none;
+	font-family: "Roboto",  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 14px;
+	color: #000000;
+}
+a {
+	color: #000000;
+}
+a:hover, a:focus, a:active {
+	color: #3f3f3f;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Roboto", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+.navbar-nav {
+	background-color: #ffffff;
+	background-repeat: repeat-x;
+	background-image: none;
+	border: none;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.navbar .navbar-text, .navbar .navbar-brand, .navbar .navbar-link, .navbar-light .navbar-nav > li > a.nav-link {
+	color: #000000;
+	text-shadow: none;
+}
+/* navbar links */
+.navbar .navbar-brand:hover, .navbar .navbar-brand:focus, .navbar .navbar-brand:active, .navbar .nav .active > a, .navbar .nav .active > a:hover,.navbar-light .navbar-nav .active > a:focus, .navbar-light .navbar-nav .active > a:active, .navbar .navbar-link:hover, .navbar .navbar-link:focus, .navbar .navbar-link:active, .navbar-light .navbar-nav > li > a.nav-link:hover, .navbar-light .navbar-nav > li > a.nav-link:focus, .navbar-light .navbar-nav > li > a.nav-link:active, .navbar-light .navbar-nav > .open > a, .navbar-light .navbar-nav > .open > a:hover, .navbar-light .navbar-nav > .open > a:focus, .navbar-light .navbar-nav > .open > a:active {
+	color: #d9823c;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.navbar-fixed-top, .navbar-static-top {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.navbar-toggle {
+	margin-top: 18px;
+	margin-bottom: 18px;
+}
+.navbar-collapse {
+	border-radius: 0px;
+}
+/* navbar brand */
+.navbar-brand {
+	padding-right: 30px;
+	max-width: 80%;
+	min-height: 20px;
+	height: auto;
+}
+
+@media (max-width: 767px) {
+.navbar .toggle-sidebar {
+	padding: 10px 15px;
+}
+}
+
+@media (min-width: 768px) {
+.navbar-brand {
+	max-width: 300px;
+}
+}
+/* navbar dropdowns */
+.navbar .dropdown.logged-in .avatar {
+	margin: 0px;
+}
+.nav .dropdown.logged-in .full-name {
+	line-height: 22px;
+}
+.nav .dropdown-menu > li > a {
+	padding: 14px;
+}
+.nav .dropdown-menu {
+	min-width: 200px;
+	padding: 0px;
+	font-size: 85%;
+    border-radius: 0px 0px 4px 4px;
+}
+.nav .dropdown-menu .divider {
+	margin: 0px;
+}
+.web-footer {
+	background-color: #ffffff;
+	border-top: 1px solid #e6e6e6;
+}
+.web-footer, .web-footer a {
+	color: #000000;
+}
+.web-footer a:hover, .web-footer a:focus, .web-footer a:active {
+	color: #191919;
+}
+.web-footer input {
+	border: 1px solid #e6e6e6;
+}
+/*.page-content {
+	border-right: 1px solid #e6e6e6;
+}
+
+.page-sidebar {
+	border-left: 1px solid #e6e6e6;
+}
+*/
+.page-footer {
+	border-top: 1px solid #e6e6e6;
+}
+.border-color {
+	border-color: #e6e6e6;
+}
+@font-face {
+	font-family: 'AutografPERSONALUSEONLY';
+	src: url('./files/AutografPERSONALUSEONLY.woff') format('woff'), url('./files/AutografPERSONALUSEONLY.ttf') format('truetype'), url('./files/AutografPERSONALUSEONLY.eot') format('embedded-opentype'), url('./files/AutografPERSONALUSEONLY.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+.page-container {
+	display: flex;
+	max-width: 100%;
+	margin: 0 auto;
+}
+.entry-title {
+	margin-top: 14px !important;
+}
+.hero-and-content > .container {
+	width: 100%;
+	padding: 0;
+}
+.page-content-wrapper .row {
+	margin: 0;
+}
+.page_content, .page-content.without-sidebar {
+	padding-top: 0;
+}
+.main-section > div > header {
+	position: absolute;
+	width: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 200;
+	background: rgba(255,255,255,1);
+}
+.main-section > div > header:hover {
+	background: #ffffff;
+}
+.navbar-nav > li > a {
+	color: #0e0e0e;
+	text-transform: uppercase;
+	padding: 10px 12px;
+	position: relative;
+}
+.navbar-nav > li > a:first-child:before {
+	content: "/";
+	position: absolute;
+	left: -3px;
+}
+.navbar-nav > li:first-child > a:before {
+	content: " ";
+}
+.navbar-nav > li > a.socialBtn:first-child {
+	padding-left: 12px;
+}
+.navbar-nav > li > a:hover {
+	color: #d9823c;
+}
+.main-section > div > header .navbar {
+	border-bottom: 0px solid #e6e6e6;
+}
+header .navbar-nav .hidden-xs {
+	padding-top: 10px;
+}
+.navbar-nav > .open > a, .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus, .navbar-nav > .open > a:active {
+	color: #000 !important;
+}
+h1 {
+	font-size: 40px;
+	font-weight: 500;
+}
+.navbar-default .navbar-toggle {
+	color: #444;
+}
+#page-list .page-content-wrapper {
+	margin-top: 20px;
+}
+#page-list #headerwrap, #headerwrap {
+	min-height: 20vh;
+	width: 100%;
+	background-attachment: scroll;
+	background-size: cover;
+	background-position: bottom left;
+}
+.blog-list-item .col-xs-12 > p {
+	height: auto !important;
+}
+.blog-list-item .col-xs-12 > p > img {
+	width: 100% !important;
+	margin: 15px 0;
+}
+ h1 {
+	letter-spacing: 1px;
+	font-size: 40px;
+}
+.blog-list-item, .blog-text {
+	padding-top: 0 !important;
+}
+.blog-list-item h2 {
+	font-size: 24px;
+}
+.blog-list-item h2 a:hover, .blog-list-item h2:hover {
+	color: #1ebaf3;
+	text-decoration: none;
+}
+.page-header-actions-block {
+	display: none;
+}
+#page-membership-application .web-form-page > div:last-child {
+	display: none;
+}
+#page-channel-partner .web-form-page > div:last-child > p, #page-participating-vendor .web-form-page > div:last-child > p, #page-contact .web-form-page > div:last-child > p {
+	text-align: center;
+	margin: 0;
+}
+#page-channel-partner .web-form-page > div:last-child > p > button.btn, #page-participating-vendor .web-form-page > div:last-child > p > button.btn, #page-contact  div.web-form-footer  button.btn {
+	padding: 6px 20px;
+}
+#page-contact  div.web-form-footer  button.btn {
+	margin: 0;
+}
+#page-contact  div.web-form-footer{
+	width: 100%;
+    text-align: center;
+}
+.page-container[data-doctype="Web Form"] form > .web-form-page {
+	max-width: 55%;
+	margin: auto;
+	background: #fafafa;
+	padding: 1%;
+	border-radius: 10px;
+}
+.page-container[data-doctype="Web Form"] form > .web-form-page .section {
+	padding: 0 !important;
+	color: #444;
+}
+.padding-tb-25 {
+	padding-top: 25px;
+	padding-bottom: 25px;
+}
+.padding-tb-40 {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+.padding-tb-60 {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+.page-container[data-doctype="Web Form"] form > .web-form-page .section h5 {
+	color: #444;
+	margin-bottom: 0;
+}
+.page-container[data-doctype="Web Form"] .page-head .col-sm-8 {
+	padding: 0;
+	width: 100% !important;
+}
+.page-container[data-doctype="Web Form"] .page-head h1 {
+	font-size: 31px;
+	text-align: center;
+	margin-top: 15px;
+}
+.introduction {
+	margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 767px) {
+.page-container[data-doctype="Web Form"] form > .web-form-page {
+	max-width: 75%;
+}
+}
+
+@media screen and (max-width: 480px) {
+.page-container[data-doctype="Web Form"] form > .web-form-page {
+	max-width: 96%;
+}
+}
+
+/***FOOTER STYLE***/
+
+footer.web-footer {
+	padding: 0px 0;
+	padding-bottom: 0;
+	position: relative;
+}
+footer .footer-bottom-line > .col-sm-6{
+    width:100%;
+	max-width: 100%;
+    flex: 0 0 100%;
+}
+footer .footer-bottom-line{
+    margin-top: 0;
+	margin-top: 1rem !important;
+}
+#page-search {
+	min-height: 700px;
+}
+.footer-bottom-line {
+	margin: 0;
+	padding-bottom: 40px;
+}
+.footer-powered {
+   padding-bottom:10px;
+}
+.footerDiv .widget-title {
+	font-size: 20px;
+	color: #000;
+	font-weight: 500;
+	margin: 0 0 .5em;
+}
+.footerDiv .form-control {
+	height: 2.2em;
+	background-color: #fafafa;
+	border-color: #e2e2e2;
+	color: #444;
+	margin: 0;
+	padding: 6px 16px;
+	font-size: 16px;
+	background: 0 0;
+	border: 1px solid #e2e2e2;
+	width: 80%;
+}
+.footerDiv ul {
+	list-style: none;
+	padding-left: 5px;
+}
+.footerDiv ul li {
+	margin-bottom: .5em;
+}
+.footerDiv ul li a {
+	color: #1e73be;
+	font-size: 16px;
+	text-decoration: none;
+}
+.footerDiv ul li a:hover {
+	color: #444;
+	text-decoration: none;
+}
+.footerDiv .Emailtitle {
+	font-size: 16px;
+}
+.footerDiv .input-group .btn {
+	height: 2.2em;
+	padding: 3px 16px;
+	font-size: 16px;
+}
+.footerDiv .input-group .form-control {
+	width: 100%;
+}
+body[data-path="homepage"] .hero-and-content > .container #headerwrap {
+	display: none;
+}
+
+@media (max-width:768px) {
+#page-list #headerwrap, #headerwrap {
+	min-height: 23.9vh;
+	background-position: bottom left;
+	background-color: #e4e4e4;
+	background-repeat: no-repeat;
+}
+.main-section > div > header {
+	position: relative;
+	background-color: rgba(34,34,34,0.9);
+}
+}
+.blog-container {
+	max-width: 98% !important;
+}
+/***FOOTER BACKGROUND IMAGE PLACEHOLDER***/
+
+footer.web-footer .footer-links {
+	padding: 20px 0;
+	background: #F4F4F4;
+	color: #444444;
+}
+footer.web-footer .footer-links .text-muted {
+	color: #444444 !important;
+}
+.web-footer a {
+	color: #444444;
+	font-size: 14px;
+}
+.web-footer a:hover, .web-footer a:focus, .web-footer a:active {
+	color: #000000;
+}
+.newsletters h4 {
+	font-size: 18px;
+	font-weight: 800;
+	padding-bottom: 0;
+}
+.newsletters .btn-default {
+	background-color: #D9823C;
+	color: #fff;
+	padding: 10px 15px;
+}
+.newsletters .btn-default:hover {
+	background-color: #D9823C;
+	color: #fff;
+}
+.newsletters .form-inline {
+	padding: 15px 0;
+}
+.newsletters .form-inline .form-control {
+	height: 45px;
+}
+.footer_link h5 {
+	font-size: 12px;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 8px;
+}
+.footer_link ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.footer_link ul li a {
+	font-size: 12px;
+	line-height: 14px;
+	margin-bottom: 5px;
+	display: inline-block;
+	text-decoration: none;
+}
+.copyright_foot {
+	position: absolute;
+	width: 100%;
+	padding: 5px 0;
+	text-align: center;
+	background: #D9823C;
+	color: #fff;
+	font-size: 12px;
+	left: 0;
+	bottom: 0;
+}
+footer.web-footer .footer-links .footer-bottom-line > .text-muted {
+	position: static;
+}
+.copyright_foot a {
+	color: #fff;
+	font-size: 12px;
+	text-decoration: none;
+}
+.copyright_foot p {
+	margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+footer.web-footer .footer-links .footer-bottom-line .footer-powered {
+	display: none;
+}
+footer .footer_link ul li a.socialBtn {
+	display: inline-block;
+	padding: 0px 0px;
+	margin: 0 5px;
+	font-size: 24px;
+}
+footer .footer_link ul li a.socialBtn:hover {
+	color: #d9823c;
+}
+ul.ml-auto input.navbar-search {
+	max-width: 111px;
+}
+.page-content-wrapper .order-container .row.order-items {
+	margin: 30px 0px 0px;
+}
+.section {
+	width: 100%;
+	position: relative;
+}
+.section_contact_header {
+	height: 55vh;
+	background-image: url(https://empowery.com/files/bridge.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: #000;
+}
+.section.section_header:before, .section_contact_header:before {
+	position: absolute;
+	background: rgba(0,0,0,0.4);
+	top: 0;
+	content: ' ';
+	width: 100%;
+	height: 100%;
+}
+.section_contact_header .boxsd {
+	bottom: 0;
+	position: absolute;
+	padding-bottom: 30px;
+}
+.section_contact_header .boxsd h2 {
+	font-size: 40px;
+	line-height: 48px;
+	font-weight: 300;
+	color: #fff;
+}
+.section_contact_header .boxsd p {
+	font-size: 20px;
+	line-height: 26px;
+	font-weight: 800;
+	color: #fff;
+}
+#page-contact  h1 {
+	font-size: 40px;
+	color: #444444;
+	line-height: 48px;
+	font-weight: 300;
+	margin: 0;
+	margin-bottom: 14px;
+	padding-top: 40px;
+}
+#page-contact .content_txt p {
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+	text-align: justify;
+}
+#page-contact .form-page form > .frappe-control, #page-contact .form-page form > .control-container {
+	max-width: 35%;
+	margin: auto;
+}
+
+@media (max-width:768px) {
+.footer_link {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	min-height: 135px;
+}
+#page-contact .form-page form > .frappe-control, #page-contact .form-page form > .control-container {
+	max-width: 85%;
+	margin: auto;
+}
+}
+
