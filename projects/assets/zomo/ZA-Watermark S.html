@@ -49,7 +49,7 @@
       <th><label>{{ _("Description") }}</label></th>
       <th><label>{{ _("Qty / UoM") }}</label></th>
       <th><label>{{ _("Weight") }}</label></th>
-      <th><label>{{ _("Net Rate") }}</label></th>
+      <th><label>{{ _("Rate") }}</label></th>
       <th><label>{{ _("Amount") }}</label></th>
     </tr>
   </thead>
@@ -60,7 +60,7 @@
       <td style="width: 26%; text-align:left">{{ row.description }}</td>
       <td style="width: 11%; text-align:left">{{ row.qty }} <span class="text-right">{{ row.uom }}</span></td>
       <td style="width: 11%; text-align:left">{{ row.weight_per_unit }} <span class="text-right">{{ row.weight_uom }}</span></td>
-      <td style="width: 11%; text-align:right">{{ row.get_formatted("net_rate", doc) }}</td>
+      <td style="width: 11%; text-align:right">{{ row.get_formatted("rate", doc) }}</td>
       <td style="width: 15%; text-align:right">{{ row.get_formatted("amount", doc) }}</td>
     </tr>
     {%- endfor -%}
